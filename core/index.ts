@@ -4,10 +4,12 @@
  * @param {T} arr 需要扁平化的数组
  * @returns {T} 返回扁平化后的数组
  */
-export const flatten = <T extends never>(arr: T[]): T[] =>
+export const flatten = <T = any>(arr: T[]): T[] =>
   arr.reduce(
     (acc, val) =>
-      Array.isArray(val) ? acc.concat(flatten(val)) : acc.concat(val),
+      Array.isArray(val)
+        ? acc.concat(flatten(val as any))
+        : acc.concat(val as any),
     []
   );
 

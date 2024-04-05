@@ -1,8 +1,7 @@
 import { flatten } from "../../core";
-import { ITestUnit } from "../../types";
 
 describe("This is a test for flatten function", () => {
-  const units: ITestUnit[] = [
+  const units = [
     {
       name: "base test 1",
       test: [1, 2, 3, 4, 5, 6, 7, 8, 9],

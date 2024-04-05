@@ -1,8 +1,7 @@
 import { parseSQL } from "../../core";
-import { ITestUnit } from "../../types";
 
 describe("This is a test for parseSQL function", () => {
-  const units: ITestUnit[] = [
+  const units = [
     {
       name: "base test 1",
       test: `id = 1 AND name = '张三'`,

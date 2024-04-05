@@ -1,9 +1,3 @@
-export interface ITestUnit {
-  name: string;
-  test: any;
-  assets: any;
-}
-
 /**
  * 获取一个类型中所有可选参数的类型
  */
