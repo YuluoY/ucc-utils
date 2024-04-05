@@ -16,4 +16,6 @@ export type GetRequired<T extends object> = {
 /**
  * 指定获取类型中的属性
  */
-export type GetProperty<T extends object, K extends keyof T> = T[K]
+export type GetProps<T extends object, K extends keyof T> = {
+    [P in K]: T[K]
+}
