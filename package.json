@@ -8,6 +8,7 @@
   },
   "scripts": {
     "start": "ts-node index",
+    "build": "tsc -p tsconfig.json",
     "create-config": "ts-jest config:init",
     "test": "jest"
   },

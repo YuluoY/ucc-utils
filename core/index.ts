@@ -65,3 +65,21 @@ export const convertRoutesToLevel = <T = any>(routes: T[]): T[] => {
     })
     .filter((route: any) => !route.parentId) as T[];
 };
+
+/**
+ * 根据属性对数组分组
+ * @param {T[]} array 需要分组的数组
+ * @param {string} prop 对某个属性的值进行分组
+ * @returns {{[key:string]: T[]}} 根据prop值分组后的对象数组
+ */
+export const groupByProp = <T = any>(
+  array: T[],
+  prop: string
+): { [key: string]: T[] } | null => {
+  if (!array.length) return null;
+  return array.reduce((acc: any, item: any) => {
+    const key = item[prop];
+    (acc[key] || (acc[key] = [])).push(item);
+    return acc;
+  }, {});
+};
