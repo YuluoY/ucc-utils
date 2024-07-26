@@ -3,9 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.groupByProp = exports.convertRoutesToLevel = exports.parseSQL = exports.flatten = void 0;
 /**
  * 多维数组扁平化为一维数组
- * @method flatten
- * @param {T} arr 需要扁平化的数组
- * @returns {T} 返回扁平化后的数组
+ * @param       {T}         arr     需要扁平化的数组
+ * @returns     {T}                 返回扁平化后的数组
  */
 const flatten = (arr) => arr.reduce((acc, val) => Array.isArray(val)
     ? acc.concat((0, exports.flatten)(val))
@@ -13,9 +12,8 @@ const flatten = (arr) => arr.reduce((acc, val) => Array.isArray(val)
 exports.flatten = flatten;
 /**
  * 字符串sql转换成数组
- * @method parseSQL
- * @param {string} sql 需要转换的sql
- * @returns {string[]} 返回转换后的数组 二维数组
+ * @param       {string}    sql     需要转换的sql
+ * @returns     {string[]}          返回转换后的数组 二维数组
  */
 const parseSQL = (sql) => {
     const regex = /(\w+)\s*([=<>]+)\s*('[^']*'|[0-9]+|\w+)/g;
