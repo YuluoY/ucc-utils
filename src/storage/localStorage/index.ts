@@ -1,8 +1,8 @@
 /**
  * 获取localStorage的值
- * @method getLocalStorage
- * @param {string} key localStorage的key
- * @returns {any} localStorage的值
+ * @method    getLocalStorage
+ * @param     {string}            key       localStorage的key
+ * @returns   {any}                         localStorage的值
  */
 export const getLocalStorage = <T = any>(key: string): T | null => {
   const value = localStorage.getItem(key);
@@ -21,12 +21,12 @@ export const getLocalStorage = <T = any>(key: string): T | null => {
 
 /**
  * 设置localStorage的值
- * @method setLocalStorage
- * @param {string} key localStorage的key
- * @param {any} value localStorage的值
- * @params {object} options 配置项
- * @param {number} options.expires 过期时间，单位：天
- * @returns {void}
+ * @method        setLocalStorage
+ * @param         {string}          key                 localStorage的key
+ * @param         {any}             value               localStorage的值
+ * @param         {object}          options             配置项
+ * @param         {number}          options.expires     过期时间，单位：天
+ * @returns       {void}
  */
 export const setLocalStorage = (
   key: string,
@@ -46,9 +46,9 @@ export const setLocalStorage = (
 
 /**
  * 删除localStorage的值
- * @method removeLocalStorage
- * @param {string} key localStorage的key
- * @returns {void}
+ * @method        removeLocalStorage
+ * @param         {string}            key         localStorage的key
+ * @returns       {void}
  */
 export const removeLocalStorage = (key: string): void => {
   localStorage.removeItem(key);

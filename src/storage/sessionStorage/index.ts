@@ -1,8 +1,8 @@
 /**
  * 获取sessionStorage
- * @method getSessionStorage
- * @param {string} key 键
- * @returns {T | null} 值
+ * @method      getSessionStorage
+ * @param       {string}            key       键
+ * @returns     {T | null}                    值
  */
 export const getSessionStorage = <T>(key: string): T | null => {
   const value = sessionStorage.getItem(key);
@@ -14,10 +14,10 @@ export const getSessionStorage = <T>(key: string): T | null => {
 
 /**
  * 设置sessionStorage
- * @method setSessionStorage
- * @param {string} key 键
- * @param {any} value 值
- * @returns {void}
+ * @method        setSessionStorage
+ * @param         {string}              key         键
+ * @param         {any}                 value       值
+ * @returns       {void}
  */
 export const setSessionStorage = (key: string, value: any): void => {
   sessionStorage.setItem(key, JSON.stringify(value));
@@ -25,9 +25,9 @@ export const setSessionStorage = (key: string, value: any): void => {
 
 /**
  * 删除sessionStorage
- * @method removeSessionStorage
- * @param {string} key 键
- * @returns {void}
+ * @method    removeSessionStorage
+ * @param     {string}                key       键
+ * @returns   {void}
  */
 export const removeSessionStorage = (key: string): void => {
   sessionStorage.removeItem(key);
