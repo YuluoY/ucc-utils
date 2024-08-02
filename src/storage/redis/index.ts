@@ -16,7 +16,7 @@ class Redis {
 
   host = 'localhost'                  // 服务器地址
   port = 6379                         // 服务器端口
-  client: RedisClientType             // redis 客户端实例
+  client!: RedisClientType             // redis 客户端实例
 
   constructor(opts: RedisOptions) {
     this.setOptions(opts)
