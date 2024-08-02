@@ -5,12 +5,12 @@
  * @returns     {T | null}                    值
  */
 export const getSessionStorage = <T>(key: string): T | null => {
-  const value = sessionStorage.getItem(key);
+  const value = sessionStorage.getItem(key)
   if (value) {
-    return JSON.parse(value) as T;
+    return JSON.parse(value) as T
   }
-  return null;
-};
+  return null
+}
 
 /**
  * 设置sessionStorage
@@ -20,8 +20,8 @@ export const getSessionStorage = <T>(key: string): T | null => {
  * @returns       {void}
  */
 export const setSessionStorage = (key: string, value: any): void => {
-  sessionStorage.setItem(key, JSON.stringify(value));
-};
+  sessionStorage.setItem(key, JSON.stringify(value))
+}
 
 /**
  * 删除sessionStorage
@@ -30,5 +30,5 @@ export const setSessionStorage = (key: string, value: any): void => {
  * @returns   {void}
  */
 export const removeSessionStorage = (key: string): void => {
-  sessionStorage.removeItem(key);
-};
+  sessionStorage.removeItem(key)
+}

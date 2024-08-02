@@ -1,4 +1,3 @@
-
 import axios from 'axios'
 import type { AxiosInstance, AxiosRequestConfig, InternalAxiosRequestConfig, AxiosResponse } from 'axios'
 
@@ -14,12 +13,11 @@ export interface IAppRequestConfig<T = AxiosResponse> extends Partial<InternalAx
   interceptors?: IAppInterceptors<T>
 }
 
-
 // 拦截器: 蒙版Loading/token/修改配置
 
 /**
  * AppRequest类
- * 
+ *
  * @example
  * ```js
  *  const request = new AppRequest({
@@ -27,7 +25,7 @@ export interface IAppRequestConfig<T = AxiosResponse> extends Partial<InternalAx
  *    timeout: 5000,
  *    interceptors: {
  *      requestSuccessFn(cfg) {
- *        return cfg 
+ *        return cfg
  *      },
  *      requestFailureFn(){},
  *      responseSuccessFn(){},

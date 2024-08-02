@@ -1,6 +1,6 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.removeSessionStorage = exports.setSessionStorage = exports.getSessionStorage = void 0;
+'use strict'
+Object.defineProperty(exports, '__esModule', { value: true })
+exports.removeSessionStorage = exports.setSessionStorage = exports.getSessionStorage = void 0
 /**
  * 获取sessionStorage
  * @method getSessionStorage
@@ -8,13 +8,13 @@ exports.removeSessionStorage = exports.setSessionStorage = exports.getSessionSto
  * @returns {T | null} 值
  */
 const getSessionStorage = (key) => {
-    const value = sessionStorage.getItem(key);
-    if (value) {
-        return JSON.parse(value);
-    }
-    return null;
-};
-exports.getSessionStorage = getSessionStorage;
+  const value = sessionStorage.getItem(key)
+  if (value) {
+    return JSON.parse(value)
+  }
+  return null
+}
+exports.getSessionStorage = getSessionStorage
 /**
  * 设置sessionStorage
  * @method setSessionStorage
@@ -23,9 +23,9 @@ exports.getSessionStorage = getSessionStorage;
  * @returns {void}
  */
 const setSessionStorage = (key, value) => {
-    sessionStorage.setItem(key, JSON.stringify(value));
-};
-exports.setSessionStorage = setSessionStorage;
+  sessionStorage.setItem(key, JSON.stringify(value))
+}
+exports.setSessionStorage = setSessionStorage
 /**
  * 删除sessionStorage
  * @method removeSessionStorage
@@ -33,6 +33,6 @@ exports.setSessionStorage = setSessionStorage;
  * @returns {void}
  */
 const removeSessionStorage = (key) => {
-    sessionStorage.removeItem(key);
-};
-exports.removeSessionStorage = removeSessionStorage;
+  sessionStorage.removeItem(key)
+}
+exports.removeSessionStorage = removeSessionStorage

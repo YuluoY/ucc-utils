@@ -3,11 +3,7 @@
  */
 
 const useDragSelect = () => {
-  
-
-  return {
-    
-  }
+  return {}
 }
 
-export default useDragSelect;
+export default useDragSelect

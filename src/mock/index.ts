@@ -1,3 +1,3 @@
-import * as fakejs from "@faker-js/faker";
+import * as fakejs from '@faker-js/faker'
 
-export const faker = fakejs.faker;
+export const faker = fakejs.faker

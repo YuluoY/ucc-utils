@@ -1,6 +1,5 @@
-import useDragSelect from "./useDragSelect";
+import useDragSelect from './useDragSelect'
 
-export default 
-{ 
-  useDragSelect 
-};
+export default {
+  useDragSelect
+}

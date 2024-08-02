@@ -5,11 +5,11 @@
  * @returns     {string}                  cookie的值
  */
 export const getCookie = (name: string): string => {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop()?.split(";").shift() as string;
-  return "";
-};
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop()?.split(';').shift() as string
+  return ''
+}
 
 /**
  * 设置cookie
@@ -22,7 +22,7 @@ export const getCookie = (name: string): string => {
  * @param     {boolean}                     options.secure      是否使用https
  * @param     {'lax' | 'strict' | 'none'}   options.sameSite    是否使用同源策略
  * @returns   {void}
- * @example 
+ * @example
  * ```js
  * setCookie("name", "value", { expires: 30, path: "/", domain: "example.com", secure: true, sameSite: "lax" });
  * ```
@@ -31,27 +31,27 @@ export const setCookie = (
   name: string,
   value: string,
   options: {
-    expires?: number;
-    path?: string;
-    domain?: string;
-    secure?: boolean;
-    sameSite?: "lax" | "strict" | "none";
+    expires?: number
+    path?: string
+    domain?: string
+    secure?: boolean
+    sameSite?: 'lax' | 'strict' | 'none'
   }
 ): void => {
-  let cookieText = `${encodeURIComponent(name)}=${encodeURIComponent(value)}`;
-  options.expires = options.expires || 7; // 默认7天过期
+  let cookieText = `${encodeURIComponent(name)}=${encodeURIComponent(value)}`
+  options.expires = options.expires || 7 // 默认7天过期
 
   if (options.expires) {
-    const d = new Date();
-    d.setTime(d.getTime() + options.expires * 24 * 60 * 60 * 1000);
-    cookieText += `; expires=${d.toUTCString()}`;
+    const d = new Date()
+    d.setTime(d.getTime() + options.expires * 24 * 60 * 60 * 1000)
+    cookieText += `; expires=${d.toUTCString()}`
   }
-  if (options.path) cookieText += `; path=${options.path}`;
-  if (options.domain) cookieText += `; domain=${options.domain}`;
-  if (options.secure) cookieText += "; secure";
-  if (options.sameSite) cookieText += `; samesite=${options.sameSite}`;
-  document.cookie = cookieText;
-};
+  if (options.path) cookieText += `; path=${options.path}`
+  if (options.domain) cookieText += `; domain=${options.domain}`
+  if (options.secure) cookieText += '; secure'
+  if (options.sameSite) cookieText += `; samesite=${options.sameSite}`
+  document.cookie = cookieText
+}
 
 /**
  * 删除cookie
@@ -60,18 +60,14 @@ export const setCookie = (
  * @param       {string}        path        cookie的路径
  * @param       {string}        domain      cookie的域名
  * @returns     {void}
- * @example 
+ * @example
  * ```js
  * removeCookie("name", "/", "example.com");
  * ```
  */
-export const removeCookie = (
-  name: string,
-  path?: string,
-  domain?: string
-): void => {
-  setCookie(name, "", { expires: -1, path, domain });
-};
+export const removeCookie = (name: string, path?: string, domain?: string): void => {
+  setCookie(name, '', { expires: -1, path, domain })
+}
 
 /**
  * 获取所有cookie
@@ -79,13 +75,13 @@ export const removeCookie = (
  * @returns   {Record<string, string>}  所有cookie的键值对
  */
 export const getAllCookies = (): Record<string, string> => {
-  const cookies: Record<string, string> = {};
-  document.cookie.split(";").forEach((cookie) => {
-    const [name, value] = cookie.split("=");
-    cookies[name.trim()] = decodeURIComponent(value);
-  });
-  return cookies;
-};
+  const cookies: Record<string, string> = {}
+  document.cookie.split(';').forEach((cookie) => {
+    const [name, value] = cookie.split('=')
+    cookies[name.trim()] = decodeURIComponent(value)
+  })
+  return cookies
+}
 
 /**
  * 验证cookie是否有效
@@ -94,6 +90,6 @@ export const getAllCookies = (): Record<string, string> => {
  * @returns   {boolean}                 cookie是否有效
  */
 export const isCookieValid = (name: string): boolean => {
-  const cookieValue = getCookie(name);
-  return !!cookieValue;
-};
+  const cookieValue = getCookie(name)
+  return !!cookieValue
+}
