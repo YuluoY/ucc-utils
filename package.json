@@ -1,6 +1,6 @@
 {
   "name": "ucc-utils",
-  "version": "0.0.2",
+  "version": "0.0.11",
   "description": "Ucc工具库",
   "author": "Yuluo",
   "license": "MIT",
@@ -8,12 +8,111 @@
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "core",
+    "dom",
+    "hooks",
+    "request",
+    "socket",
+    "sql",
+    "storage",
+    "worker",
+    "types"
   ],
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.js"
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    },
+    "./core": {
+      "import": {
+        "types": "./dist/core/index.d.mts",
+        "default": "./dist/core/index.mjs"
+      },
+      "require": {
+        "types": "./dist/core/index.d.ts",
+        "default":"./dist/core/index.js"
+      }
+    },
+    "./dom": {
+      "import": {
+        "types": "./dist/dom/index.d.mts",
+        "default": "./dist/dom/index.mjs"
+      },
+      "require": {
+        "types": "./dist/dom/index.d.ts",
+        "default":"./dist/dom/index.js"
+      }
+    },
+    "./hooks": {
+      "import": {
+        "types": "./dist/hooks/index.d.mts",
+        "default":"./dist/hooks/index.mjs"
+      },
+      "require": {
+        "types": "./dist/hooks/index.d.ts",
+        "default":"./dist/hooks/index.js"
+      }
+    },
+    "./request": {
+      "import": {
+        "types": "./dist/request/index.d.mts",
+        "default":"./dist/request/index.mjs"
+      },
+      "require": {
+        "types": "./dist/request/index.d.ts",
+        "default":"./dist/request/index.js"
+      }
+    },
+    "./socket": {
+      "import": {
+        "types": "./dist/socket/index.d.mts",
+        "default":"./dist/socket/index.mjs"
+      },
+      "require": {
+        "types": "./dist/socket/index.d.ts",
+        "default":"./dist/socket/index.js"
+      }
+    },
+    "./sql": {
+      "import": {
+        "types": "./dist/sql/index.d.mts",
+        "default":"./dist/sql/index.mjs"
+      },
+      "require": {
+        "types": "./dist/sql/index.d.ts",
+        "default":"./dist/sql/index.js"
+      }
+    },
+    "./storage": {
+      "import": {
+        "types": "./dist/storage/index.d.mts",
+        "default":"./dist/storage/index.mjs"
+      },
+      "require": {
+        "types": "./dist/storage/index.d.ts",
+        "default":"./dist/storage/index.js"
+      }
+    },
+    "./worker": {
+      "import": {
+        "types": "./dist/worker/index.d.mts",
+        "default":"./dist/worker/index.mjs"
+      },
+      "require": {
+        "types": "./dist/worker/index.d.ts",
+        "default":"./dist/worker/index.js"
+      }
+    },
+    "./types": {
+      "import": "./dist/types/index.ts",
+      "require": "./dist/types/index.ts"
     }
   },
   "repository": {
@@ -58,8 +157,7 @@
     "@commitlint/config-conventional": "^19.2.2",
     "@eslint/js": "^9.8.0",
     "@faker-js/faker": "^8.4.1",
-    "@types/jest": "^29.5.12",
-    "@types/mocha": "^10.0.6",
+     "@types/mocha": "^10.0.6",
     "@types/redis": "^4.0.11",
     "axios": "^1.6.8",
     "eslint": "^9.8.0",
