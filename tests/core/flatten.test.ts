@@ -1,4 +1,4 @@
-import { flatten } from '../../core'
+import { flatten } from '@/core'
 
 describe('This is a test for flatten function', () => {
   const units = [

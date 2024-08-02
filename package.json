@@ -17,10 +17,21 @@
     "sql",
     "storage",
     "worker",
-    "types"
+    "types",
+    "polyfill"
   ],
   "exports": {
     ".": {
+      "import": {
+        "types": "./dist/index.d.mts",
+        "default": "./dist/index.mjs"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    },
+    "./polyfill": {
       "import": {
         "types": "./dist/index.d.mts",
         "default": "./dist/index.mjs"
@@ -37,7 +48,7 @@
       },
       "require": {
         "types": "./dist/core/index.d.ts",
-        "default":"./dist/core/index.js"
+        "default": "./dist/core/index.js"
       }
     },
     "./dom": {
@@ -47,67 +58,67 @@
       },
       "require": {
         "types": "./dist/dom/index.d.ts",
-        "default":"./dist/dom/index.js"
+        "default": "./dist/dom/index.js"
       }
     },
     "./hooks": {
       "import": {
         "types": "./dist/hooks/index.d.mts",
-        "default":"./dist/hooks/index.mjs"
+        "default": "./dist/hooks/index.mjs"
       },
       "require": {
         "types": "./dist/hooks/index.d.ts",
-        "default":"./dist/hooks/index.js"
+        "default": "./dist/hooks/index.js"
       }
     },
     "./request": {
       "import": {
         "types": "./dist/request/index.d.mts",
-        "default":"./dist/request/index.mjs"
+        "default": "./dist/request/index.mjs"
       },
       "require": {
         "types": "./dist/request/index.d.ts",
-        "default":"./dist/request/index.js"
+        "default": "./dist/request/index.js"
       }
     },
     "./socket": {
       "import": {
         "types": "./dist/socket/index.d.mts",
-        "default":"./dist/socket/index.mjs"
+        "default": "./dist/socket/index.mjs"
       },
       "require": {
         "types": "./dist/socket/index.d.ts",
-        "default":"./dist/socket/index.js"
+        "default": "./dist/socket/index.js"
       }
     },
     "./sql": {
       "import": {
         "types": "./dist/sql/index.d.mts",
-        "default":"./dist/sql/index.mjs"
+        "default": "./dist/sql/index.mjs"
       },
       "require": {
         "types": "./dist/sql/index.d.ts",
-        "default":"./dist/sql/index.js"
+        "default": "./dist/sql/index.js"
       }
     },
     "./storage": {
       "import": {
         "types": "./dist/storage/index.d.mts",
-        "default":"./dist/storage/index.mjs"
+        "default": "./dist/storage/index.mjs"
       },
       "require": {
         "types": "./dist/storage/index.d.ts",
-        "default":"./dist/storage/index.js"
+        "default": "./dist/storage/index.js"
       }
     },
     "./worker": {
       "import": {
         "types": "./dist/worker/index.d.mts",
-        "default":"./dist/worker/index.mjs"
+        "default": "./dist/worker/index.mjs"
       },
       "require": {
         "types": "./dist/worker/index.d.ts",
-        "default":"./dist/worker/index.js"
+        "default": "./dist/worker/index.js"
       }
     },
     "./types": {
@@ -157,7 +168,7 @@
     "@commitlint/config-conventional": "^19.2.2",
     "@eslint/js": "^9.8.0",
     "@faker-js/faker": "^8.4.1",
-     "@types/mocha": "^10.0.6",
+    "@types/mocha": "^10.0.6",
     "@types/redis": "^4.0.11",
     "axios": "^1.6.8",
     "eslint": "^9.8.0",

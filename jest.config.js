@@ -1,6 +1,9 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 module.exports = {
-  preset: 'ts-jest', // 意思是使用ts-jest来处理测试
+  preset: 'ts-jest',
   testEnvironment: 'node',
-  testMatch: ['**/*.test.ts']
+  testMatch: ['**/*.test.ts'],
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/src/$1',
+  },
 }

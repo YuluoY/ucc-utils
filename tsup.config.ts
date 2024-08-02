@@ -4,6 +4,7 @@ import fs from 'node:fs'
 export const tsup: Options = {
   entry: {
     index: './index.ts',
+    polyfill: './Polyfill.ts',
     'core/index': 'src/core/index.ts',
     'dom/index': 'src/dom/index.ts',
     'hooks/index': 'src/hooks/index.ts',
