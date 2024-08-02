@@ -92,7 +92,7 @@ export const parseJSON = <T = any>(str: string, defVal: T = {} as any): T => {
  * @param     {string}      str       英文字符串
  * @returns   {string}
  */
-export const onCapitalizeFirstLetter = (str: string): string => {
+export const capitalizeFirstLetter = (str: string): string => {
   if (!str) return ''
   const reg = /\b\w/g
   return (() => {

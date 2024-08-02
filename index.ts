@@ -1,7 +1,7 @@
 import * as types from './src/types'
 import * as core from './src/core'
-import * as storage from './src/storage'
 import * as dom from './src/dom'
+import storage from './src/storage'
 import hooks from './src/hooks'
 import request from './src/request'
 import sql from './src/sql'
