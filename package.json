@@ -1,6 +1,6 @@
 {
   "name": "ucc-utils",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "description": "Ucc工具库",
   "author": "Yuluo",
   "license": "MIT",
@@ -183,6 +183,7 @@
     "ts-jest": "^29.1.2",
     "tsup": "^8.2.4",
     "typescript": "^5.5.4",
-    "typescript-eslint": "^8.0.0"
+    "typescript-eslint": "^8.0.0",
+    "vue": "^3.4.35"
   }
 }
