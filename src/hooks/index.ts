@@ -1,4 +1,4 @@
 import useDragSelect from './useDragSelect'
-import useSetRootFontSize from './useRootFontSize'
+import useRootFontSize from './useRootFontSize'
 
-export { useDragSelect, useSetRootFontSize }
+export { useDragSelect, useRootFontSize }
