@@ -12,7 +12,7 @@ interface RedisToTryCatchResult<T = any> {
   error?: Error | any
 }
 
-class Redis {
+export class Redis {
   host = 'localhost' // 服务器地址
   port = 6379 // 服务器端口
   client!: RedisClientType // redis 客户端实例
@@ -108,5 +108,3 @@ class Redis {
     }
   }
 }
-
-export default Redis

@@ -34,7 +34,7 @@ export interface IAppRequestConfig<T = AxiosResponse> extends Partial<InternalAx
  *  })
  * ```
  */
-class AppRequest {
+export class AppRequest {
   instance: AxiosInstance
 
   // request实例 => axios的实例
@@ -109,5 +109,3 @@ class AppRequest {
     return this.request({ ...config, method: 'PUT' })
   }
 }
-
-export default AppRequest

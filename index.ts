@@ -1,19 +1,8 @@
-import * as core from './src/core'
-import * as dom from './src/dom'
-import storage from './src/storage'
-import hooks from './src/hooks'
-import request from './src/request'
-import sql from './src/sql'
-import worker from './src/worker'
-import socket from './src/socket'
-
-export {
-  socket, // websocket
-  worker, // web worker
-  sql, // sql工具操作
-  core, // 核心工具
-  storage, // 本地存储
-  request, // 请求类
-  dom, // dom操作
-  hooks // 钩子函数
-}
+export * from './src/core' // 核心工具
+export * from './src/dom' // dom操作
+export * from './src/storage' // 本地存储
+export * from './src/hooks' // 钩子函数
+export * from './src/request' // 请求类
+export * from './src/sql' // sql工具操作
+export * from './src/worker' // web worker
+export * from './src/socket' // websocket

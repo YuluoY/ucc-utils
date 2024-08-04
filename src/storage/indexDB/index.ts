@@ -1,3 +1,1 @@
-class IndexDB {}
-
-export default IndexDB
+export class IndexDB {}
