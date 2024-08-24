@@ -6,3 +6,9 @@ export * from './src/request' // 请求类
 export * from './src/sql' // sql工具操作
 export * from './src/worker' // web worker
 export * from './src/socket' // websocket
+
+/**
+ * lodash工具
+ */
+import lodash from 'lodash'
+export const _ = lodash
