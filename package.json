@@ -1,6 +1,6 @@
 {
   "name": "ucc-utils",
-  "version": "0.1.1",
+  "version": "0.2.1",
   "description": "Ucc工具库",
   "author": "Yuluo",
   "license": "MIT",
@@ -147,7 +147,7 @@
     "javascript"
   ],
   "scripts": {
-    "start": "npm run dev",
+    "start": "npm --prefix play run start",
     "dev": "tsup --watch",
     "build": "tsup",
     "create-config": "ts-jest config:init",
