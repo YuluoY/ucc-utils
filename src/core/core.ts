@@ -308,3 +308,41 @@ export function getDeepValue(obj: Record<string, any>, path: string | string[], 
 
   return path.reduce((o, k) => (o || {})[k], obj)
 }
+
+/**
+ * watch 监听一个函数返回为 true 的时机，并执行回调 - 有执行间隔和次数限制
+ * @author      Yuluo
+ * @date        2024-09-14
+ * @param       {() => Promise<boolean> | boolean}     fn                 - 监听的函数
+ * @param       {() => Promise<void> | void}           callback           - 回调函数
+ * @param       {object}                              [options]           - 配置项
+ * @param       {number}                              [options.delay]     - 执行间隔，单位毫秒，默认 100
+ * @param       {number}                              [options.limit]     - 执行次数限制，默认 1
+ * @returns     {() => void}                                              - 取消监听的函数
+ * @example
+ * ```ts
+ * const cancel = watchFn(() => isReady(), () => {
+ *   console.log('isReady')
+ * }, { delay: 100, limit: 1 })
+ */
+export function watchFn(
+  fn: () => Promise<boolean> | boolean,
+  callback: () => Promise<void> | void,
+  options: Partial<{ delay: number; limit: number }> = {}
+): () => void {
+  const { delay = 100, limit = 1 } = options
+  let count = 0
+  const interval = setInterval(async () => {
+    if (await fn()) {
+      await callback()
+      count++
+      if (count >= limit) {
+        clearInterval(interval)
+      }
+    } else {
+      count = 0
+    }
+  }, delay) as any
+
+  return () => clearInterval(interval)
+}
