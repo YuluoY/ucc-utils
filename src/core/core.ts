@@ -325,6 +325,9 @@ export function getDeepValue(obj: Record<string, any>, path: string | string[], 
  * const cancel = watchFn(() => isReady(), () => {
  *   console.log('isReady')
  * }, { delay: 100, limit: 1, ctx: this })
+ * // 取消监听
+ * cancel()
+ * ```
  */
 export function watchFn(
   fn: () => Promise<boolean> | boolean,
