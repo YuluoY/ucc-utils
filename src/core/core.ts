@@ -318,23 +318,24 @@ export function getDeepValue(obj: Record<string, any>, path: string | string[], 
  * @param       {object}                              [options]           - 配置项
  * @param       {number}                              [options.delay]     - 执行间隔，单位毫秒，默认 100
  * @param       {number}                              [options.limit]     - 执行次数限制，默认 1
+ * @param       {Record<string, any>}                 [options.ctx]       - 回调函数的 this 上下文
  * @returns     {() => void}                                              - 取消监听的函数
  * @example
  * ```ts
  * const cancel = watchFn(() => isReady(), () => {
  *   console.log('isReady')
- * }, { delay: 100, limit: 1 })
+ * }, { delay: 100, limit: 1, ctx: this })
  */
 export function watchFn(
   fn: () => Promise<boolean> | boolean,
   callback: () => Promise<void> | void,
-  options: Partial<{ delay: number; limit: number }> = {}
+  options: Partial<{ delay: number; limit: number; ctx: Record<string, any> }> = {}
 ): () => void {
-  const { delay = 100, limit = 1 } = options
+  const { delay = 100, limit = 1, ctx = null } = options
   let count = 0
   const interval = setInterval(async () => {
     if (await fn()) {
-      await callback()
+      ctx ? await callback.call(ctx) : await callback()
       count++
       if (count >= limit) {
         clearInterval(interval)
