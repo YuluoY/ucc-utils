@@ -109,3 +109,4 @@ export class AppRequest {
     return this.request({ ...config, method: 'PUT' })
   }
 }
+export default AppRequest

@@ -1,4 +1,4 @@
-import { root } from '@/core'
+import { root } from '../core'
 import { debounce, type DebounceSettings, type DebouncedFunc } from 'lodash'
 
 export interface URootFontSizeOptions {

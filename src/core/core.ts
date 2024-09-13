@@ -139,3 +139,172 @@ export const capitalizeFirstLetter = (str: string): string => {
  * ```
  */
 export const getType = (val: any): string => Object.prototype.toString.call(val).slice(8, -1).toLowerCase()
+
+/**
+ * 将 CSS 渐变（线性或径向）转换为 ECharts 的渐变配置
+ * @author      Yuluo
+ * @date        2024-09-14
+ * @param       {string} cssGradient  - CSS 渐变字符串 (linear-gradient 或 radial-gradient)
+ * @returns     {Object}              - ECharts 兼容的渐变配置 (linearGradient 或 radialGradient)
+ * @example
+ * ```js
+ *  cssGradientToECharts('linear-gradient(45deg, rgba(255, 0, 0, 1) 0%, rgba(0, 255, 0, 1) 100%)');
+ *
+ *  // 输出:
+ *  {
+ *    type: 'linear',
+ *    x: 0.7071067811865476,
+ *    y: 0.7071067811865475,
+ *    x2: 1,
+ *    y2: 0,
+ *    colorStops:
+ *      [
+ *        { offset: 0, color: 'rgba(255, 0, 0, 1)' },
+ *        { offset: 1, color: 'rgba(0, 255, 0, 1)' }
+ *      ],
+ *    global: false,
+ *    value: 'linear-gradient(45deg, rgba(255, 0, 0, 1) 0%, rgba(0, 255, 0, 1) 100%)'
+ *  }
+ *  ```
+ */
+export function cssGradientToECharts(cssGradient: string):
+  | {
+      type: 'linear' | 'radial'
+      x: number
+      y: number
+      x2?: number
+      y2?: number
+      r?: number
+      colorStops: { offset: number; color: string }[]
+      global: boolean
+      value: string
+    }
+  | string {
+  // 判断是线性渐变还是径向渐变
+  const isLinear = cssGradient.startsWith('linear-gradient')
+  const isRadial = cssGradient.startsWith('radial-gradient')
+
+  // 正则匹配 rgba 或 rgb 颜色和百分比位置
+  const regex = /rgba?\((\d+), (\d+), (\d+),? ([\d.]+)?\)\s(\d+)%/g
+  let match: RegExpExecArray | null
+  const colorStops: { offset: number; color: string }[] = []
+
+  // 提取所有颜色和它们的百分比位置
+  while ((match = regex.exec(cssGradient)) !== null) {
+    const [r, g, b, a = '1', position] = match.slice(1)
+    colorStops.push({
+      offset: parseInt(position) / 100, // 将百分比转换为 0-1 范围
+      color: `rgba(${r}, ${g}, ${b}, ${a})`
+    })
+  }
+
+  if (isLinear) {
+    // 解析线性渐变的方向
+    const angleMatch = /linear-gradient\(([\d.]+)deg/.exec(cssGradient)
+    const angle = angleMatch ? parseFloat(angleMatch[1]) : 0
+
+    // 返回 ECharts 的 linearGradient 配置
+    return {
+      type: 'linear',
+      x: Math.cos((angle * Math.PI) / 180), // 将角度转换为 x 方向
+      y: Math.sin((angle * Math.PI) / 180), // 将角度转换为 y 方向
+      x2: 1,
+      y2: 0,
+      colorStops: colorStops,
+      global: false,
+      value: cssGradient
+    }
+  } else if (isRadial) {
+    // 返回 ECharts 的 radialGradient 配置
+    return {
+      type: 'radial',
+      x: 0.5, // 渐变中心 x 坐标
+      y: 0.5, // 渐变中心 y 坐标
+      r: 0.5, // 渐变半径
+      colorStops: colorStops,
+      global: false,
+      value: cssGradient
+    }
+  } else {
+    // 如果不支持，返回原始字符串
+    return cssGradient
+    // throw new Error('不支持的渐变类型，仅支持 linear-gradient 和 radial-gradient。');
+  }
+}
+
+/**
+ * 设置对象属性值（支持深度路径）
+ * @author      Yuluo
+ * @date        2024-09-14
+ * @param       {Record<string, any>}           obj             - 目标对象
+ * @param       {string | string[]}             path            - 属性路径，支持点分隔的字符串或数组
+ * @param       {any}                           val             - 要设置的值
+ * @param       {string}                        [splitter='.']  - 分隔符，默认为 '.'
+ * @returns     {[Record<string, any>, string]}                 修改后的对象和最后一个属性的 key
+ * @example
+ * ```ts
+ * const obj = { a: { b: { c: 1 } } }
+ * setDeepValue(obj, 'a.b.c', 2) // obj = { a: { b: { c: 2 } } }
+ * ```
+ */
+export function setDeepValue(
+  obj: Record<string, any>,
+  path: string | string[],
+  val: any,
+  splitter: string = '.'
+): [Record<string, any>, string] {
+  // 如果 path 是字符串且不包含分隔符，直接赋值
+  if (typeof path === 'string') {
+    if (path.indexOf(splitter) === -1) {
+      obj[path] = val
+      return [obj, path]
+    }
+    // 如果包含分隔符，将字符串按分隔符拆分成数组
+    path = path.split(splitter)
+  }
+
+  let active = obj // 当前操作的对象
+  const length = path.length // 路径长度
+
+  // 遍历路径，确保路径中的对象存在
+  for (let i = 0; i < length - 1; i++) {
+    const p = path[i]
+    // 如果路径中的对象不存在，则创建新对象
+    active = active[p] = active[p] || {}
+  }
+
+  const lastKey = path[length - 1] // 获取路径中的最后一个 key
+  // 如果最后一个 key 对应的是数组，则将值加入数组；否则直接赋值
+  if (Array.isArray(active[lastKey])) {
+    active[lastKey].push(val)
+  } else {
+    active[lastKey] = val
+  }
+
+  return [active, lastKey] // 返回修改后的对象和最后一个 key
+}
+
+/**
+ * 获取对象属性值（支持深度路径）
+ * @author      Yuluo
+ * @date        2024-09-14
+ * @param       {Record<string, any>} obj             - 目标对象
+ * @param       {string | string[]}   path            - 属性路径，支持点分隔的字符串或数组
+ * @param       {string}              [splitter='.']  - 分隔符，默认为 '.'
+ * @returns     {any}                                 - 属性值
+ * @example
+ * ```ts
+ * const obj = { a: { b: { c: 1 } } }
+ * getDeepValue(obj, 'a.b.c') // 1
+ *
+ * const obj2 = { a: { b: { c: 1 } } }
+ * getDeepValue(obj, 'a.b.c.d') // undefined
+ * ```
+ */
+export function getDeepValue(obj: Record<string, any>, path: string | string[], splitter: string = '.'): any {
+  if (typeof path === 'string') {
+    path = path.split(splitter)
+  }
+
+  return path.reduce((o, k) => (o || {})[k], obj)
+}

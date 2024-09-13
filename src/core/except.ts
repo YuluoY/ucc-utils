@@ -20,7 +20,7 @@ import { HandleExceptionOptions, HandleExceptionResult } from './types/except'
 export const handleException = async <T = any>(
   fn: Function,
   opts: HandleExceptionOptions
-): HandleExceptionResult<T> => {
+): Promise<HandleExceptionResult<T>> => {
   const { fnArgs = [], isToThrow = false, onErrorFn = null } = opts
 
   const o = [] as unknown as [T, any]
