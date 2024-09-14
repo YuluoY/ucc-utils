@@ -23,14 +23,14 @@ export interface URootFontSizeReturn {
 
 /**
  * 处理根字体大小 rem 响应式布局
- * @author  Yuluo
+ * @author  Yuluo  {@link https://github.com/YuluoY}
  * @date    2024-08-24
  * @param   {URootFontSizeOptions}  options                         配置项
- * @param   {number}                options.resizeTimeout           resize事件防抖时间, 默认300ms
- * @param   {boolean}               options.isResize                是否开启resize事件, 默认true
- * @param   {boolean}               options.immediate               是否立即执行, 默认false
- * @param   {DebounceSettings}      options.debounceOpt             lodash防抖配置, 默认{}
- * @param   {Function}              options.setRootFontSizeCallback 设置根字体大小回调函数, 默认null
+ * @param   {number}                [options.resizeTimeout]           resize事件防抖时间, 默认300ms
+ * @param   {boolean}               [options.isResize]                是否开启resize事件, 默认true
+ * @param   {boolean}               [options.immediate]               是否立即执行, 默认false
+ * @param   {DebounceSettings}      [options.debounceOpt]             lodash防抖配置, 默认{}
+ * @param   {Function}              [options.setRootFontSizeCallback] 设置根字体大小回调函数, 默认null
  * @returns {URootFontSizeReturn}
  * @example
  * ```js

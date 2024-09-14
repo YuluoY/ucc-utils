@@ -1,8 +1,10 @@
 /**
  * 获取sessionStorage
- * @method      getSessionStorage
- * @param       {string}            key       键
- * @returns     {T | null}                    值
+ * @author        Yuluo  {@link https://github.com/YuluoY}
+ * @date          2024-08-02
+ * @method        getSessionStorage
+ * @param         {string}            key       键
+ * @returns       {T | null}                    值
  */
 export const getSessionStorage = <T>(key: string): T | null => {
   const value = sessionStorage.getItem(key)
@@ -14,6 +16,8 @@ export const getSessionStorage = <T>(key: string): T | null => {
 
 /**
  * 设置sessionStorage
+ * @author        Yuluo  {@link https://github.com/YuluoY}
+ * @date          2024-08-02
  * @method        setSessionStorage
  * @param         {string}              key         键
  * @param         {any}                 value       值
@@ -25,9 +29,11 @@ export const setSessionStorage = (key: string, value: any): void => {
 
 /**
  * 删除sessionStorage
- * @method    removeSessionStorage
- * @param     {string}                key       键
- * @returns   {void}
+ * @author        Yuluo  {@link https://github.com/YuluoY}
+ * @date          2024-08-02
+ * @method        removeSessionStorage
+ * @param         {string}                key       键
+ * @returns       {void}
  */
 export const removeSessionStorage = (key: string): void => {
   sessionStorage.removeItem(key)

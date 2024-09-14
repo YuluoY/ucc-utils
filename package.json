@@ -155,6 +155,7 @@
     "lint:fix": "eslint --fix --ignore-pattern .gitignore .",
     "format": "prettier \"src/**/*.{js,ts}\" --write .",
     "prepare": "husky",
+    "doc": "npx typedoc --entryPointStrategy expand --out docs src",
     "test": "jest"
   },
   "lint-staged": {
@@ -187,6 +188,10 @@
     "sass": "^1.78.0",
     "ts-jest": "^29.1.2",
     "tsup": "^8.2.4",
+    "typedoc": "^0.26.7",
+    "typedoc-github-theme": "^0.1.2",
+    "typedoc-material-theme": "^1.1.0",
+    "typedoc-plugin-markdown": "^4.2.7",
     "typescript": "^5.5.4",
     "typescript-eslint": "^8.0.0",
     "vue": "^3.4.35"

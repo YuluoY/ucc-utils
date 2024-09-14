@@ -4,7 +4,7 @@
 
 /**
  * 浏览器空闲时间执行
- * @author    Yuluo
+ * @author    Yuluo  {@link https://github.com/YuluoY}
  * @date      2024-08-24
  * @param     {Function}    fn     回调函数
  * @returns   {number}
@@ -21,7 +21,7 @@ export const idleCallback = (fn: Function): number => {
 
 /**
  * 在浏览器空闲时执行任务队列 - 可以传递一个WeakMap，将会收取所有id和任务
- * @author    Yuluo
+ * @author    Yuluo  {@link https://github.com/YuluoY}
  * @date      2024-08-24
  * @param     {Function[] | Function}                 task        任务队列
  * @param     {WeakMap<Function, number>}             idleMap     已请求的空闲回调ID

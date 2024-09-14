@@ -17,6 +17,7 @@ import { RenderVNodeBase } from './types'
  * @param name
  * @param props
  * @param children
+ * @experimental
  * @returns
  */
 export const renderVNode = (

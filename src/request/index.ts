@@ -17,7 +17,9 @@ export interface IAppRequestConfig<T = AxiosResponse> extends Partial<InternalAx
 
 /**
  * AppRequest类
- *
+ * @class AppRequest
+ * @param {IAppRequestConfig} config
+ * @description AppRequest类
  * @example
  * ```js
  *  const request = new AppRequest({

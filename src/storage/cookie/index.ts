@@ -1,5 +1,7 @@
 /**
  * 获取cookie
+ * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @date        2024-08-02
  * @method      getCookie
  * @param       {string}        name      cookie存储的key值
  * @returns     {string}                  cookie的值
@@ -13,15 +15,17 @@ export const getCookie = (name: string): string => {
 
 /**
  * 设置cookie
- * @method    setCookie
- * @param     {string}                      name                cookie存储的key值
- * @param     {string}                      value               cookie的值
- * @param     {number}                      options.expires     过期时间，单位为天
- * @param     {string}                      options.path        cookie的路径
- * @param     {string}                      options.domain      cookie的域名
- * @param     {boolean}                     options.secure      是否使用https
- * @param     {'lax' | 'strict' | 'none'}   options.sameSite    是否使用同源策略
- * @returns   {void}
+ * @method      setCookie
+ * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @date        2024-08-02
+ * @param       {string}                      name                cookie存储的key值
+ * @param       {string}                      value               cookie的值
+ * @param       {number}                      options.expires     过期时间，单位为天
+ * @param       {string}                      options.path        cookie的路径
+ * @param       {string}                      options.domain      cookie的域名
+ * @param       {boolean}                     options.secure      是否使用https
+ * @param       {'lax' | 'strict' | 'none'}   options.sameSite    是否使用同源策略
+ * @returns     {void}
  * @example
  * ```js
  * setCookie("name", "value", { expires: 30, path: "/", domain: "example.com", secure: true, sameSite: "lax" });
@@ -55,6 +59,8 @@ export const setCookie = (
 
 /**
  * 删除cookie
+ * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @date        2024-08-02
  * @method      removeCookie
  * @param       {string}        name        cookie存储的key值
  * @param       {string}        path        cookie的路径
@@ -71,8 +77,10 @@ export const removeCookie = (name: string, path?: string, domain?: string): void
 
 /**
  * 获取所有cookie
- * @method    getAllCookies
- * @returns   {Record<string, string>}  所有cookie的键值对
+ * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @date        2024-08-02
+ * @method      getAllCookies
+ * @returns     {Record<string, string>}  所有cookie的键值对
  */
 export const getAllCookies = (): Record<string, string> => {
   const cookies: Record<string, string> = {}
@@ -85,9 +93,11 @@ export const getAllCookies = (): Record<string, string> => {
 
 /**
  * 验证cookie是否有效
- * @method    isCookieValid
- * @param     {string}          name    cookie存储的key值
- * @returns   {boolean}                 cookie是否有效
+ * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @date        2024-08-02
+ * @method      isCookieValid
+ * @param       {string}          name    cookie存储的key值
+ * @returns     {boolean}                 cookie是否有效
  */
 export const isCookieValid = (name: string): boolean => {
   const cookieValue = getCookie(name)
