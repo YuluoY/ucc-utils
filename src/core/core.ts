@@ -1,5 +1,6 @@
 import { cloneDeep } from 'lodash'
 import { ConvertRoutesToLevelOptions } from './types/core'
+import { isJSONString, isStringNumber } from './judge'
 
 /**
  * window对象 - 兼容
@@ -249,12 +250,12 @@ export function cssGradientToECharts(cssGradient: string):
  * setDeepValue(obj, 'a.b.c', 2) // obj = { a: { b: { c: 2 } } }
  * ```
  */
-export function setDeepValue(
+export function setDeepValue<T = any>(
   obj: Record<string, any>,
   path: string | string[],
   val: any,
   splitter: string = '.'
-): [Record<string, any>, string] {
+): [Record<string, T>, string] {
   // 如果 path 是字符串且不包含分隔符，直接赋值
   if (typeof path === 'string') {
     if (path.indexOf(splitter) === -1) {
@@ -297,18 +298,17 @@ export function setDeepValue(
  * @example
  * ```ts
  * const obj = { a: { b: { c: 1 } } }
- * getDeepValue(obj, 'a.b.c') // 1
+ * getDeepValue<number>(obj, 'a.b.c') // 1
  *
  * const obj2 = { a: { b: { c: 1 } } }
  * getDeepValue(obj, 'a.b.c.d') // undefined
  * ```
  */
-export function getDeepValue(obj: Record<string, any>, path: string | string[], splitter: string = '.'): any {
+export function getDeepValue<T = any>(obj: Record<string, any>, path: string | string[], splitter: string = '.'): T {
   if (typeof path === 'string') {
     path = path.split(splitter)
   }
-
-  return path.reduce((o, k) => (o || {})[k], obj)
+  return path.reduce((o, k) => (o || {})[k], obj) as T
 }
 
 /**
@@ -351,4 +351,53 @@ export function watchFn(
   }, delay) as any
 
   return () => clearInterval(interval)
+}
+
+/**
+ * 立即执行函数
+ * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @date        2024-09-24
+ * @param       {() => void}  fn  - 需要执行的函数
+ * @returns     {any}             - 返回值
+ */
+export const runFn = <T = any>(fn: () => T, ctx: any): T => {
+  if (ctx) return fn.call(ctx)
+  return fn()
+}
+
+/**
+ * 将字符串还原值类型
+ * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @date        2024-09-24
+ * @param       {string}  str - 字符串
+ * @returns     {any}         - 还原后的值
+ * @example
+ * ```ts
+ * restoreValue('undefined') // undefined
+ * restoreValue('null') // null
+ * restoreValue('true') // true
+ * restoreValue('false') // false
+ * restoreValue('NaN') // NaN
+ * restoreValue('Infinity') // Infinity
+ * restoreValue('-Infinity') // -Infinity
+ * restoreValue<string>('123') // 123
+ * restoreValue<{a: number}>('{"a":1}') // {a: 1}
+ * restoreValue<number[]>('[1,2,3]') // [1,2,3]
+ * ```
+ */
+export function restoreValue<T = any>(str: string): T {
+  if (typeof str !== 'string') return str
+  str = str.trim()
+
+  if (str === 'undefined') return undefined as T
+  if (str === 'null') return null as T
+  if (str === 'true') return true as T
+  if (str === 'false') return false as T
+  if (str === 'NaN') return NaN as T
+  if (str === 'Infinity') return Infinity as T
+  if (str === '-Infinity') return -Infinity as T
+  if (isStringNumber(str)) return Number(str) as T
+  if (isJSONString(str)) return JSON.parse(str) as T
+
+  return str as T
 }
