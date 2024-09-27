@@ -1,6 +1,6 @@
-import { convertRoutesToLevel } from '../index'
+import { convertRoutesToLevel } from '@/core/core'
 
-describe('This is a test for convertRoutesToLevel function', () => {
+describe('Test the convertRoutesToLevel function', () => {
   const units = [
     {
       name: 'base test 1',

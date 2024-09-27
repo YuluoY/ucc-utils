@@ -1,6 +1,6 @@
 import { cloneDeep } from 'lodash'
 import { ConvertRoutesToLevelOptions } from './types/core'
-import { isJSONString, isStringNumber } from './judge'
+import { isJSONString, isStringArray, isStringFunction, isStringNumber, isStringObject } from './judge'
 
 /**
  * window对象 - 兼容
@@ -365,8 +365,46 @@ export const runFn = <T = any>(fn: () => T, ctx: any): T => {
   return fn()
 }
 
+const StrToObjReg = [
+  /(\w+):/g, // 替换属性名为双引号
+  /"null"/g, // 将 "null" 替换为 null
+  /"undefined"/g, // 将 "undefined" 替换为 undefined
+  /"(\[.*?\])"/g, // 将数组字符串转换为数组
+  /"function\(\){}"/g,
+  'function(){}', // 将函数字符串转换为函数
+  /'/g // 将单引号替换为双引号
+]
 /**
- * 将字符串还原值类型
+ * 字符串值转换为带类型的值
+ * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @date        2024-09-28
+ * @param       {string}    str     - 字符串值
+ * @returns     {any}               - 带类型的值
+ * @example
+ * ```ts
+ *  const str = '{a: 10, b: "function(){}", c: "jhahah", d: "null", e: "undefined", f: "[1,2,3,4]"}';
+ *  const obj = parseStrWithType(str);
+ *  console.log(obj);
+ *  // {a: 10, b: function() {}, c: "jhahah", d: null, e: undefined, f: [1, 2, 3, 4]}
+ * ```
+ */
+export const parseStrWithType = <T = any>(str: string): T | string => {
+  try {
+    str = str
+      .replace(StrToObjReg[0], '"$1":')
+      .replace(StrToObjReg[5], '"')
+      .replace(StrToObjReg[1], 'null')
+      .replace(StrToObjReg[2], 'undefined')
+      .replace(StrToObjReg[3], '$1')
+      .replace(StrToObjReg[4], 'function(){}')
+    return new Function(`return ${str}`)()
+  } catch (e) {
+    return str as string
+  }
+}
+
+/**
+ * 字符串值还原类型值
  * @author      Yuluo  {@link https://github.com/YuluoY}
  * @date        2024-09-24
  * @param       {string}  str - 字符串
@@ -382,6 +420,7 @@ export const runFn = <T = any>(fn: () => T, ctx: any): T => {
  * restoreValue('-Infinity') // -Infinity
  * restoreValue<string>('123') // 123
  * restoreValue<{a: number}>('{"a":1}') // {a: 1}
+ * restoreValue<{a: number[]}>('{a:[1,2,3]}') // {a: [1,2,3]}
  * restoreValue<number[]>('[1,2,3]') // [1,2,3]
  * ```
  */
@@ -397,7 +436,6 @@ export function restoreValue<T = any>(str: string): T {
   if (str === 'Infinity') return Infinity as T
   if (str === '-Infinity') return -Infinity as T
   if (isStringNumber(str)) return Number(str) as T
-  if (isJSONString(str)) return JSON.parse(str) as T
-
+  if (isStringArray(str) || isStringObject(str) || isStringFunction(str)) return parseStrWithType<T>(str) as T
   return str as T
 }

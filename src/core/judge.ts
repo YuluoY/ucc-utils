@@ -32,21 +32,40 @@ export const isPrimitive = (val: any): val is boolean => {
 }
 
 /**
- * 是否有值
+ * 是否有分量的值
  * @author      Yuluo  {@link https://github.com/YuluoY}
  * @date        2024-09-14
  * @param       {any}           val       需要判断的值
  * @return      {boolean}
  * @example
  * ```ts
- *  hasValue(1) // true
- *  hasValue('1') // true
- *  hasValue(true) // true
- *  hasValue(null) // false
- *  hasValue(undefined) // false
+ * hasWeightValue(1) // true
+ * hasWeightValue(0) // false
+ * hasWeightValue('1') // true
+ * hasWeightValue('') // false
+ * hasWeightValue(true) // true
+ * hasWeightValue(false) // false
+ * hasWeightValue(null) // false
+ * hasWeightValue(undefined) // false
+ * hasWeightValue({}) // false
+ * hasWeightValue([]) // false
  * ```
  */
-export const hasValue = (val: any): val is boolean => val !== null && val !== undefined
+export const hasWeightValue = (val: any): val is boolean => {
+  if (isPrimitive(val)) {
+    if (isSymbol(val)) {
+      return !!(val as unknown as symbol)?.description
+    }
+    return !!val
+  }
+  if (isArray(val)) {
+    return (val as unknown as any[]).length > 0
+  }
+  if (isObject(val)) {
+    return Object.keys(val).length > 0
+  }
+  return false
+}
 
 /**
  * 是否为null
@@ -75,6 +94,20 @@ export const isNull = (val: any): val is boolean => val === null
  * ```
  */
 export const isUndefined = (val: any): val is boolean => val === undefined
+
+/**
+ * 是否是symbol
+ * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @date        2024-09-14
+ * @param       {any}           val       需要判断的值
+ * @return      {boolean}
+ * @example
+ * ```ts
+ *  isSymbol(Symbol()) // true
+ *  isSymbol('1') // false
+ * ```
+ */
+export const isSymbol = (val: any): val is boolean => typeof val === 'symbol'
 
 /**
  * 是否是函数
@@ -135,11 +168,11 @@ export const isPlainObject = (val: any): val is boolean => {
  * ```ts
  *  isEmptyObject({}) // true
  *  isEmptyObject({a: 1}) // false
- *  isEmptyObject([]) // false
+ *  isEmptyObject([]) // true
  * ```
  */
 export const isEmptyObject = (val: any): val is boolean =>
-  typeof val === 'object' && val !== null && Object.keys(val).length === 0
+  (isPlainObject(val) && Object.keys(val).length === 0) || (isArray(val) && (val as unknown as any[]).length === 0)
 
 /**
  * 是否是普通空对象
@@ -244,8 +277,6 @@ export const isNumber = (val: any): val is boolean => typeof val === 'number'
  */
 export const isInteger = (val: any): val is boolean => typeof val === 'number' && Number.isInteger(val)
 
-// eslint-disable-next-line no-useless-escape
-const JSONRegExp = /^[\[\{].*[\]\}]$|^"(?:\\.|[^"\\])*"$|^-?\d+(?:\.\d+)?(?:[eE][+\-]?\d+)?$|^(true|false|null)$/
 /**
  * 判断是否是JSON string
  * @author      Yuluo  {@link https://github.com/YuluoY}
@@ -260,7 +291,15 @@ const JSONRegExp = /^[\[\{].*[\]\}]$|^"(?:\\.|[^"\\])*"$|^-?\d+(?:\.\d+)?(?:[eE]
  */
 export const isJSONString = (str: any): str is boolean => {
   if (typeof str !== 'string') return false
-  return JSONRegExp.test(str.trim())
+  str = str.trim()
+  // 判断两边是否有括号
+  if (!str.startsWith('{') && !str.startsWith('[')) return false
+  try {
+    JSON.parse(str)
+    return true
+  } catch (e) {
+    return false
+  }
 }
 
 const StringNumRegExp = /^\d+(\.\d+)?$/
@@ -282,18 +321,89 @@ export const isStringNumber = (str: any): str is boolean => {
   return StringNumRegExp.test(str.trim())
 }
 
+/**
+ * 判断是否是字符串布尔值
+ * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @date        2024-09-28
+ * @param       {any}       str   - 要检查的值
+ * @returns     {boolean}         - 如果是字符串布尔值返回 true，否则返回 false
+ * @example
+ * ```ts
+ *  isStringBoolean('true') // true
+ *  isStringBoolean('false') // true
+ *  isStringBoolean('abc') // false
+ * ```
+ */
+export const isStringBoolean = (str: any): str is boolean => {
+  if (typeof str !== 'string') return false
+  return ['true', 'false'].includes(str.trim())
+}
+
+/**
+ * 判断是否是字符串数组
+ * @author    Yuluo  {@link https://github.com/YuluoY}
+ * @date      2024-09-28
+ * @param     {any}         str   - 要检查的值
+ * @returns   {boolean}           - 如果是字符串数组返回 true，否则返回 false
+ * @example
+ * ```ts
+ *  isStringArray('[1, 2, 3]') // true
+ *  isStringArray('[]') // true
+ *  isStringArray('123') // false
+ * ```
+ */
+export const isStringArray = (str: any): str is boolean =>
+  typeof str === 'string' && str.startsWith('[') && str.endsWith(']')
+
+/**
+ * 判断是否是字符串对象
+ * @author    Yuluo  {@link https://github.com/YuluoY}
+ * @date      2024-09-28
+ * @param     {any}         str   - 要检查的值
+ * @returns   {boolean}           - 如果是字符串对象返回 true，否则返回 false
+ * @example
+ * ```ts
+ *  isStringObject('{"name": "John", "age": 30}') // true
+ *  isStringObject('{"name": "John", "age": 30,}') // true
+ *  isStringObject('{name: "John", age: 30}') // true
+ * ```
+ */
+export const isStringObject = (str: any): str is boolean =>
+  typeof str === 'string' && str.startsWith('{') && str.endsWith('}')
+
+/**
+ * 判断是否是字符串函数
+ * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @date        2024-09-28
+ * @param       {any}       str   - 要检查的值
+ * @returns     {boolean}         - 如果是字符串函数返回 true，否则返回 false
+ * @example
+ * ```ts
+ *  isStringFunction('function(){}') // true
+ *  isStringFunction('()=>{}') // true
+ *  isStringFunction('_=>{}') // true
+ * ```
+ */
+export const isStringFunction = (str: any): str is boolean => {
+  if (typeof str !== 'string') return false
+  // 去掉所有空格
+  str = str.replace(/\s+/g, '')
+  return str.startsWith('function') || str.startsWith('()=>') || str.startsWith('_=>')
+}
+
 const WinRegExps = [/Win/i, /Win(?:dows)?/i] as RegExp[]
 /**
  * 判断当前系统是否是 Windows 系统
  * @author      Yuluo  {@link https://github.com/YuluoY}
  * @date        2024-09-14
+ * @param       {Navigator}      - 可选参数，用于指定要检查的 navigator 对象
  * @return      {boolean}
  * @example
  * ```ts
  *  isWindows() // true or false
  * ```
  */
-export const isWindows = (): boolean => {
+export const isWindows = (navigator?: Navigator): boolean => {
   // 检查 navigator 是否存在，以确保在浏览器环境中运行
   if (typeof navigator !== 'undefined' && navigator.userAgent) {
     return WinRegExps[0].test(navigator.platform) || WinRegExps[1].test(navigator.userAgent)
@@ -307,13 +417,14 @@ const MacRegExps = [/Mac(?:intosh|Intel|PPC|68K)/i, /Mac/i] as RegExp[]
  * 判断当前系统是否是 macOS 系统
  * @author      Yuluo  {@link https://github.com/YuluoY}
  * @date        2024-09-14
+ * @param       {Navigator}      - 可选参数，用于指定要检查的 navigator 对象
  * @return      {boolean}
  * @example
  * ```ts
  *  isMacOS() // true or false
  * ```
  */
-export const isMacOS = (): boolean => {
+export const isMacOS = (navigator?: Navigator): boolean => {
   if (typeof navigator !== 'undefined' && navigator.userAgent) {
     return MacRegExps[0].test(navigator.platform) || MacRegExps[1].test(navigator.userAgent)
   }
@@ -326,13 +437,14 @@ const MobileRegExp =
  * 判断是否是移动端
  * @author      Yuluo  {@link https://github.com/YuluoY}
  * @date        2024-09-14
+ * @param       {Navigator}      - 可选参数，用于指定要检查的 navigator 对象
  * @return      {boolean}
  * @example
  * ```ts
  *  isMobile() // true or false
  * ```
  */
-export const isMobile = (): boolean => {
+export const isMobile = (navigator?: Navigator): boolean => {
   if (typeof navigator !== 'undefined' && navigator.userAgent) {
     return MobileRegExp.test(navigator.userAgent.toLocaleLowerCase())
   }
@@ -343,13 +455,14 @@ export const isMobile = (): boolean => {
  * 判断是否是PC端
  * @author      Yuluo  {@link https://github.com/YuluoY}
  * @date        2024-09-14
+ * @param       {Navigator}      - 可选参数，用于指定要检查的 navigator 对象
  * @return      {boolean}
  * @example
  * ```ts
  *  isPC() // true or false
  * ```
  */
-export const isPC = (): boolean => !isMobile()
+export const isPC = (navigator?: Navigator): boolean => !isMobile(navigator)
 
 const UrlRegExp = /^(((ht|f)tps?):\/\/)?([^!@#$%^&*?.\s-]([^!@#$%^&*?.\s]{0,63}[^!@#$%^&*?.\s])?\.)+[a-z]{2,6}\/?/
 /**
