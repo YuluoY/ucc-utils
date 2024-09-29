@@ -1,6 +1,24 @@
-import { cloneDeep } from 'lodash'
+import { cloneDeep, replace } from 'lodash'
 import { ConvertRoutesToLevelOptions } from './types/core'
-import { isJSONString, isStringArray, isStringFunction, isStringNumber, isStringObject } from './judge'
+import { isStringArray, isStringFunction, isStringNumber, isStringObject } from './judge'
+import {
+  AddQuotesToPropsRegExp,
+  ReplaceArrowFuncs2RegExp,
+  ReplaceArrowFuncsRegExp,
+  ReplaceBoolsRegExp,
+  ReplaceFuncsRegExp,
+  ReplaceInfsRegExp,
+  ReplaceNaNsRegExp,
+  ReplaceNullsRegExp,
+  ReplaceUndefsRegExp,
+  RplaceArrRegExp,
+  TrimCRRegExp,
+  TrimNLRegExp,
+  TrimSpaceRegExp,
+  TrimTabRegExp,
+  TrimWhitespaceRegExp,
+  UpperCaseRegExp
+} from './regExp'
 
 /**
  * window对象 - 兼容
@@ -19,6 +37,230 @@ export const root: Window | null =
         : typeof self === 'object' && self.Object === Object
           ? self
           : Function('return this')()
+
+/**
+ * 去掉字符串中的空格
+ * @author    Yuluo  {@link https://github.com/YuluoY}
+ * @date      2024-09-28
+ * @param     {string}    str   字符串
+ * @returns   {string}          去掉空格后的字符串
+ * @example
+ * ```ts
+ * const str = ' 123 456 789  ';
+ * trimSpace(str); // '123456789'
+ * ```
+ */
+export const trimSpace = (str: string): string => str.replace(TrimSpaceRegExp, '')
+
+/**
+ * 去掉字符串中的换行符
+ * @author    Yuluo  {@link https://github.com/YuluoY}
+ * @date      2024-09-28
+ * @param     {string}    str   字符串
+ * @returns   {string}          去掉换行符后的字符串
+ * @example
+ * ```ts
+ * const str = '123\n456\n789';
+ * trimNL(str); // '123456789'
+ * ```
+ */
+export const trimNL = (str: string): string => str.replace(TrimNLRegExp, '')
+
+/**
+ * 去掉字符串中的回车符
+ * @author    Yuluo  {@link https://github.com/YuluoY}
+ * @date      2024-09-28
+ * @param     {string}    str   字符串
+ * @returns   {string}          去掉回车符后的字符串
+ * @example
+ * ```ts
+ * const str = '123\r456\r789';
+ * trimCR(str); // '123456789'
+ * ```
+ */
+export const trimCR = (str: string): string => str.replace(TrimCRRegExp, '')
+
+/**
+ * 去掉字符串中的制表符
+ * @author    Yuluo  {@link https://github.com/YuluoY}
+ * @date      2024-09-28
+ * @param     {string}    str   字符串
+ * @returns   {string}          去掉制表符后的字符串
+ * @example
+ * ```ts
+ * const str = '123\t456\t789';
+ * trimTabForString(str); // '123456789'
+ * ```
+ */
+export const trimTab = (str: string): string => str.replace(TrimTabRegExp, '')
+
+/**
+ * 去掉字符串中的空格、换行符、回车符、制表符
+ * @author    Yuluo  {@link https://github.com/YuluoY}
+ * @date      2024-09-28
+ * @param     {string}    str   字符串
+ * @returns   {string}          去掉空格、换行符、回车符、制表符后的字符串
+ * @example
+ * ```ts
+ * const str = ' 123 \n 456 \r 789 \t ';
+ * trimWhitespace(str); // '123456789'
+ * ```
+ */
+export const trimWhitespace = (str: string): string => str.replace(TrimWhitespaceRegExp, '')
+
+/**
+ * 给字符串中对象属性名加双引号
+ * @author    Yuluo  {@link https://github.com/YuluoY}
+ * @date      2024-09-28
+ * @param     {string}    str   字符串
+ * @returns   {string}          给字符串中对象属性名加双引号后的字符串
+ * @example
+ * ```ts
+ * const str = 'a:1,b:2,c:3';
+ * const result = str.replace(addQuotesToProps, '"$1":$2');
+ * console.log(result); // '"a":1,"b":2,"c":3'
+ *
+ * const str2 = '{a:1,b:2,c:3}';
+ * const result2 = str2.replace(addQuotesToProps, '"$1":$2');
+ * console.log(result2); // '{"a":1,"b":2,"c":3}'
+ * ```
+ */
+export const addQuotesToProps = (str: string): string => str.replace(AddQuotesToPropsRegExp, '"$1":$2')
+
+/**
+ * 将数组字符串转换为数组
+ * @author    Yuluo  {@link https://github.com/YuluoY}
+ * @date      2024-09-28
+ * @param     {string}    str   数组字符串
+ * @returns   {string}          数组
+ * @example
+ * ```ts
+ * const str = '[1,2,3,4,5]';
+ * arrayStrToArr(str);
+ * console.log(result); // [1,2,3,4,5]
+ * ```
+ */
+export const replaceArr = (str: string): string => str.replace(RplaceArrRegExp, '$1')
+
+/**
+ * 将所有'null'转换为null
+ * @author    Yuluo  {@link https://github.com/YuluoY}
+ * @date      2024-09-28
+ * @param     {string}    str   字符串
+ * @returns   {string}          将所有'null'转换为null后的字符串
+ * @example
+ * ```ts
+ * const str = 'null';
+ * console.log(str); // 'null'
+ * replaceNulls(str); // null
+ */
+export const replaceNulls = (str: string): string => str.replace(ReplaceNullsRegExp, '$1')
+
+/**
+ * 将所有'undefined'转换为undefined
+ * @author    Yuluo  {@link https://github.com/YuluoY}
+ * @date      2024-09-28
+ * @param     {string}    str   字符串
+ * @returns   {string}          将所有'undefined'转换为undefined后的字符串
+ * @example
+ * ```ts
+ * const str = 'undefined';
+ * console.log(str); // 'undefined'
+ * replaceUndefs(str); // undefined
+ */
+export const replaceUndefs = (str: string): string => str.replace(ReplaceUndefsRegExp, '$1')
+
+/**
+ * 将所有'NaN'转换为NaN
+ * @author    Yuluo  {@link https://github.com/YuluoY}
+ * @date      2024-09-28
+ * @param     {string}    str   字符串
+ * @returns   {string}          将所有'NaN'转换为NaN后的字符串
+ * @example
+ * ```ts
+ * const str = 'NaN';
+ * console.log(str); // 'NaN'
+ * replaceNaNs(str); // NaN
+ */
+export const replaceNaNs = (str: string): string => str.replace(ReplaceNaNsRegExp, '$1')
+
+/**
+ * 将所有'Infinity'转换为Infinity
+ * @author    Yuluo  {@link https://github.com/YuluoY}
+ * @date      2024-09-28
+ * @param     {string}    str   字符串
+ * @returns   {string}          将所有'Infinity'转换为Infinity后的字符串
+ * @example
+ * ```ts
+ * const str = 'Infinity';
+ * console.log(str); // 'Infinity'
+ * replaceInfs(str); // Infinity
+ * ```
+ */
+export const replaceInfs = (str: string): string => str.replace(ReplaceInfsRegExp, '$1')
+
+/**
+ * 将所有'false' or 'true' 转换为boolean
+ * @author    Yuluo  {@link https://github.com/YuluoY}
+ * @date      2024-09-28
+ * @param     {string}    str   字符串
+ * @returns   {string}          将所有'false' or 'true'  转换为boolean后的字符串
+ * @example
+ * ```ts
+ * const str = 'false';
+ * console.log(str); // 'false'
+ * replaceBools(str); // false
+ * ```
+ */
+export const replaceBools = (str: string): string => str.replace(ReplaceBoolsRegExp, '$1')
+
+/**
+ * 将function字符串转换为函数
+ * @author    Yuluo  {@link https://github.com/YuluoY}
+ * @date      2024-09-28
+ * @param     {string}    str   函数字符串
+ * @returns   {string}          函数
+ * @example
+ * ```ts
+ * const str = 'function() { return 1; }';
+ * const result = replaceFuncs(str);
+ * const fn = new Function(`return ${result}`)();
+ * console.log(fn()); // 1
+ * ```
+ */
+export const replaceFuncs = (str: string): string => str.replace(ReplaceFuncsRegExp, '$1')
+
+/**
+ * 将'() => {}' 字符串转换为函数
+ * @author    Yuluo  {@link https://github.com/YuluoY}
+ * @date      2024-09-28
+ * @param     {string}    str   函数字符串
+ * @returns   {string}          函数
+ * @example
+ * ```ts
+ * const str = '() => { return 1 }';
+ * const result = replaceArrowFuncs(str);
+ * const fn = new Function(`return ${result}`)();
+ * console.log(fn()); // 1
+ * ```
+ */
+export const replaceArrowFuncs = (str: string): string => str.replace(ReplaceArrowFuncsRegExp, '$1')
+
+/**
+ * 将所有的'_=>{}' 字符串转换为函数
+ * @author    Yuluo  {@link https://github.com/YuluoY}
+ * @date      2024-09-28
+ * @param     {string}    str   函数字符串
+ * @returns   {string}          函数
+ * @example
+ * ```ts
+ * const str = '_=>{ return 1 }';
+ * const result = replaceArrowFuncs2(str);
+ * const fn = new Function(`return ${result}`)();
+ * console.log(fn()); // 1
+ * ```
+ */
+export const replaceArrowFuncs2 = (str: string): string => str.replace(ReplaceArrowFuncs2RegExp, '$1')
 
 /**
  * 扁平路由表转换有层级的路由表
@@ -116,15 +358,12 @@ export const parseJSON = <T = any>(str: string, defVal: T = {} as any): T => {
  * @returns   {string}
  * @example
  * ```js
- *  capitalizeFirstLetter('hello world')  // Hello world
+ *  capitalizeFirstLetter('hello world')  // Hello World
  * ```
  */
 export const capitalizeFirstLetter = (str: string): string => {
   if (!str) return ''
-  const reg = /\b\w/g
-  return (() => {
-    return str.replace(reg, (match) => match.toUpperCase())
-  })()
+  return str.replace(UpperCaseRegExp, (match) => match.toUpperCase())
 }
 
 /**
@@ -382,23 +621,43 @@ const StrToObjReg = [
  * @returns     {any}               - 带类型的值
  * @example
  * ```ts
- *  const str = '{a: 10, b: "function(){}", c: "jhahah", d: "null", e: "undefined", f: "[1,2,3,4]"}';
- *  const obj = parseStrWithType(str);
+ * const str = '{a: 10, b: "function(){}", c: "jhahah", d: "null", e: "undefined", f: "[1,2,3,4]"}';
+ * const obj = parseStrWithType(str);
+ *
+ * const str2 = "{a: 10, b: 'function(){}', c: 'jhahah', d: 'null', e: 'undefined', f: '[1,2,3,4]'}"
+ * const obj2 = parseStrWithType(str2);
+ *
+ * const str3 = "{a: 10, b: function() {}, c: jhahah, d: null, e: undefined, f: [1,2,3,4]}"
+ * const obj3 = parseStrWithType(str3);
+ *
+ * const str4 = '{a: 10, b: "function(){}", c: jhahah, d: null, e: undefined, f: [1,2,3,4]}'
+ * const obj4 = parseStrWithType(str4);
+ *
  *  console.log(obj);
+ *  console.log(obj2);
+ *  console.log(obj3);
+ *  console.log(obj4);
  *  // {a: 10, b: function() {}, c: "jhahah", d: null, e: undefined, f: [1, 2, 3, 4]}
  * ```
  */
 export const parseStrWithType = <T = any>(str: string): T | string => {
   try {
-    str = str
-      .replace(StrToObjReg[0], '"$1":')
-      .replace(StrToObjReg[5], '"')
-      .replace(StrToObjReg[1], 'null')
-      .replace(StrToObjReg[2], 'undefined')
-      .replace(StrToObjReg[3], '$1')
-      .replace(StrToObjReg[4], 'function(){}')
+    // str = trimSpace(str)
+    // str = addQuotesToProps(str)
+    str = str.replace(/([a-zA-Z_]\w*)/g, '"$1"')
+    str = replaceNulls(str)
+    str = replaceUndefs(str)
+    str = replaceInfs(str)
+    str = replaceNaNs(str)
+    str = replaceBools(str)
+    str = replaceArr(str)
+    str = replaceFuncs(str)
+    str = replaceArrowFuncs(str)
+    str = replaceArrowFuncs2(str)
+
     return new Function(`return ${str}`)()
   } catch (e) {
+    console.log('parseStrWithType error:', e)
     return str as string
   }
 }

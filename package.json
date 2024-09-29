@@ -156,7 +156,8 @@
     "format": "prettier \"src/**/*.{js,ts}\" --write .",
     "prepare": "husky",
     "doc": "npx typedoc --entryPointStrategy expand --out docs src",
-    "test": "jest"
+    "test": "jest",
+    "test:w": "jest --watch"
   },
   "lint-staged": {
     "*.{js,jsx,vue,ts,tsx}": [

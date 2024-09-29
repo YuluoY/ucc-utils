@@ -28,8 +28,11 @@ import {
   isEmail,
   isPhone,
   isQQ,
-  isPromise
-} from '@/core/judge' // 替换为实际文件名
+  isPromise,
+  isAsyncComponent,
+  isNullish
+} from '@/core/judge'
+import { defineAsyncComponent } from 'vue'
 
 describe('Test the judge module', () => {
   test('isPrimitive', () => {
@@ -59,6 +62,12 @@ describe('Test the judge module', () => {
   test('isNull', () => {
     expect(isNull(null)).toBe(true)
     expect(isNull(undefined)).toBe(false)
+  })
+
+  test('isNullish', () => {
+    expect(isNullish(null)).toBe(true)
+    expect(isNullish(undefined)).toBe(true)
+    expect(isNullish(0)).toBe(false)
   })
 
   test('isUndefined', () => {
@@ -194,6 +203,7 @@ describe('Test the judge module', () => {
     expect(isURL('https://www.baidu.com')).toBe(true)
     expect(isURL('www.baidu.com')).toBe(true)
     expect(isURL('baidu.com')).toBe(true)
+    expect(isURL('baidu')).toBe(false)
   })
 
   test('isEmail', () => {
@@ -211,5 +221,11 @@ describe('Test the judge module', () => {
 
   test('isPromise', () => {
     expect(isPromise(Promise.resolve())).toBe(true)
+  })
+
+  test('isAsyncComponent', () => {
+    expect(isAsyncComponent(() => import('../index'))).toBe(false)
+    expect(isAsyncComponent(import('../index'))).toBe(false)
+    expect(isAsyncComponent(defineAsyncComponent(() => import('../index')))).toBe(true)
   })
 })

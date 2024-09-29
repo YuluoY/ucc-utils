@@ -82,6 +82,21 @@ export const hasWeightValue = (val: any): val is boolean => {
 export const isNull = (val: any): val is boolean => val === null
 
 /**
+ * 是否为undefined or null
+ * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @date        2024-09-28
+ * @param       {any}           val       需要判断的值
+ * @return      {boolean}
+ * @example
+ * ```ts
+ *  isNullish(undefined) // true
+ *  isNullish(null) // true
+ *  isNullish(1) // false
+ * ```
+ */
+export const isNullish = (val: any): val is boolean => val === null || val === undefined
+
+/**
  * 是否为undefined
  * @author      Yuluo  {@link https://github.com/YuluoY}
  * @date        2024-09-14
@@ -540,4 +555,21 @@ export const isQQ = (qq: string): boolean => QQRegExp.test(qq)
  */
 export const isPromise = (obj: any): boolean => {
   return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.then === 'function'
+}
+
+/**
+ * 是否是AsyncComponent的异步组件
+ * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @date        2024-09-28
+ * @param       {any}         obj       - 要检查的对象
+ * @return      {boolean}
+ * @example
+ * ```ts
+ * isAsyncComponent(defineAsyncComponent(() => import('../index')) ) // true
+ * isAsyncComponent(import('../index')) // false
+ * isAsyncComponent(() => import('../index')) // false
+ * ```
+ */
+export const isAsyncComponent = (obj: any): boolean => {
+  return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.__asyncLoader === 'function'
 }
