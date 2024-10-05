@@ -1,6 +1,7 @@
 {
   "$schema": "https://typedoc.org/schema.json",
   "entryPoints": ["./src/index.ts", "./src/secondary-entry.ts"],
+  "exclude": ["node_modules", "**/*.test.ts"],
   "out": "doc",
   "plugin": ["typedoc-github-theme"]
   // "plugin": ["typedoc-material-theme"],

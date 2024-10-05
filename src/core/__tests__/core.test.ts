@@ -133,17 +133,11 @@ test('runFn', () => {
 // parseStrWithType 测试用例
 test('parseStrWithType', () => {
   const str =
-    '{a: 10, b: "function(){return 1}", c: "jhahah", d: "null", e: "undefined", f: "[1,2,3,4]", g: "true", h: "Infinity", i: "-Infinity", j: "NaN"}'
-  const str2 =
-    "{a: 10, b: '() => {return 2}', c: 'jhahah', d: 'null', e: 'undefined', f: '[1,2,3,4]', g: 'true, h: 'Infinity', i: '-Infinity', j: 'NaN'}"
-  const str3 =
     '{a: 10, b: _ => {return 3}, c: "jhahah", d: null, e: undefined, f: [1,2,3,4], g: true, h: Infinity, i: -Infinity, j: NaN}'
   const obj = parseStrWithType(str)
-
-  console.log(obj, typeof obj, '-=')
-
-  // expect(obj.a).toBe(10)
-  // expect(Array.isArray(obj.f)).toBe(true)
+  expect(obj.a).toBe(10)
+  expect(Array.isArray(obj.f)).toBe(true)
+  expect(obj.b()).toBe(3)
 })
 
 // restoreValue 测试用例

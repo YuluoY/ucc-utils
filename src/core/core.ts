@@ -1,4 +1,4 @@
-import { cloneDeep, replace } from 'lodash'
+import { cloneDeep } from 'lodash'
 import { ConvertRoutesToLevelOptions } from './types/core'
 import { isStringArray, isStringFunction, isStringNumber, isStringObject } from './judge'
 import {
@@ -275,7 +275,7 @@ export const replaceArrowFuncs2 = (str: string): string => str.replace(ReplaceAr
  * @param     {boolean}                       [opts.isChangeOwner= true]    是否改变原数组，默认为true
  * @returns   {T}                                                           返回转换后的路由表
  * @example
- * ```js
+ * ```ts
  *   const routes = [
  *     { id: 1, pid: 0, name: 'home' },
  *     { id: 2, pid: 1, name: 'home1' },
@@ -283,6 +283,24 @@ export const replaceArrowFuncs2 = (str: string): string => str.replace(ReplaceAr
  *     { id: 4, pid: 2, name: 'home3' },
  *   ]
  *   const result = convertRoutesToLevel(routes, { fld: 'id', glFld: 'pid', childFld: 'children' })
+ *   // [
+ *    {
+ *      id: 1,
+ *      pid: 0,
+ *      name: 'home',
+ *      children: [
+ *         {
+ *            id: 2,
+ *            pid: 1,
+ *            name: 'home1',
+ *            children: [
+ *              { id: 4, pid: 2, name: 'home3' }
+ *            ]
+ *         },
+ *        { id: 3, pid: 1, name: 'home2' }
+ *      ]
+ *     }
+ *   ]
  * ```
  */
 export const convertRoutesToLevel = <T = any>(routes: T[], opts: ConvertRoutesToLevelOptions = {}): T[] => {
@@ -604,60 +622,25 @@ export const runFn = <T = any>(fn: () => T, ctx: any): T => {
   return fn()
 }
 
-const StrToObjReg = [
-  /(\w+):/g, // 替换属性名为双引号
-  /"null"/g, // 将 "null" 替换为 null
-  /"undefined"/g, // 将 "undefined" 替换为 undefined
-  /"(\[.*?\])"/g, // 将数组字符串转换为数组
-  /"function\(\){}"/g,
-  'function(){}', // 将函数字符串转换为函数
-  /'/g // 将单引号替换为双引号
-]
 /**
- * 字符串值转换为带类型的值
+ * 将字符串对象解析为带类型的对象
  * @author      Yuluo  {@link https://github.com/YuluoY}
  * @date        2024-09-28
  * @param       {string}    str     - 字符串值
  * @returns     {any}               - 带类型的值
  * @example
  * ```ts
- * const str = '{a: 10, b: "function(){}", c: "jhahah", d: "null", e: "undefined", f: "[1,2,3,4]"}';
- * const obj = parseStrWithType(str);
- *
- * const str2 = "{a: 10, b: 'function(){}', c: 'jhahah', d: 'null', e: 'undefined', f: '[1,2,3,4]'}"
- * const obj2 = parseStrWithType(str2);
- *
- * const str3 = "{a: 10, b: function() {}, c: jhahah, d: null, e: undefined, f: [1,2,3,4]}"
- * const obj3 = parseStrWithType(str3);
- *
- * const str4 = '{a: 10, b: "function(){}", c: jhahah, d: null, e: undefined, f: [1,2,3,4]}'
- * const obj4 = parseStrWithType(str4);
+ * const str = "{a: 10, b: function() {}, c: 'jhahah', d: null, e: undefined, f: [1,2,3,4]}"
+ * const obj = parseStrWithType(str3);
  *
  *  console.log(obj);
- *  console.log(obj2);
- *  console.log(obj3);
- *  console.log(obj4);
- *  // {a: 10, b: function() {}, c: "jhahah", d: null, e: undefined, f: [1, 2, 3, 4]}
+ *  // {a: 10, b: function() {}, c: 'jhahah', d: null, e: undefined, f: [1, 2, 3, 4]}
  * ```
  */
 export const parseStrWithType = <T = any>(str: string): T | string => {
   try {
-    // str = trimSpace(str)
-    // str = addQuotesToProps(str)
-    str = str.replace(/([a-zA-Z_]\w*)/g, '"$1"')
-    str = replaceNulls(str)
-    str = replaceUndefs(str)
-    str = replaceInfs(str)
-    str = replaceNaNs(str)
-    str = replaceBools(str)
-    str = replaceArr(str)
-    str = replaceFuncs(str)
-    str = replaceArrowFuncs(str)
-    str = replaceArrowFuncs2(str)
-
     return new Function(`return ${str}`)()
   } catch (e) {
-    console.log('parseStrWithType error:', e)
     return str as string
   }
 }
