@@ -1,22 +1,16 @@
-import { cloneDeep } from 'lodash'
+import { cloneDeep, startsWith } from 'lodash'
 import { ConvertRoutesToLevelOptions } from './types/core'
 import { isStringArray, isStringFunction, isStringNumber, isStringObject } from './judge'
 import {
   AddQuotesToPropsRegExp,
-  ReplaceArrowFuncs2RegExp,
-  ReplaceArrowFuncsRegExp,
-  ReplaceBoolsRegExp,
-  ReplaceFuncsRegExp,
-  ReplaceInfsRegExp,
-  ReplaceNaNsRegExp,
-  ReplaceNullsRegExp,
-  ReplaceUndefsRegExp,
-  RplaceArrRegExp,
+  CamelCaseRegExp,
+  SymbolRegExp,
   TrimCRRegExp,
   TrimNLRegExp,
   TrimSpaceRegExp,
   TrimTabRegExp,
   TrimWhitespaceRegExp,
+  UnderlineToCamelCaseRegExp,
   UpperCaseRegExp
 } from './regExp'
 
@@ -128,141 +122,6 @@ export const trimWhitespace = (str: string): string => str.replace(TrimWhitespac
 export const addQuotesToProps = (str: string): string => str.replace(AddQuotesToPropsRegExp, '"$1":$2')
 
 /**
- * 将数组字符串转换为数组
- * @author    Yuluo  {@link https://github.com/YuluoY}
- * @date      2024-09-28
- * @param     {string}    str   数组字符串
- * @returns   {string}          数组
- * @example
- * ```ts
- * const str = '[1,2,3,4,5]';
- * arrayStrToArr(str);
- * console.log(result); // [1,2,3,4,5]
- * ```
- */
-export const replaceArr = (str: string): string => str.replace(RplaceArrRegExp, '$1')
-
-/**
- * 将所有'null'转换为null
- * @author    Yuluo  {@link https://github.com/YuluoY}
- * @date      2024-09-28
- * @param     {string}    str   字符串
- * @returns   {string}          将所有'null'转换为null后的字符串
- * @example
- * ```ts
- * const str = 'null';
- * console.log(str); // 'null'
- * replaceNulls(str); // null
- */
-export const replaceNulls = (str: string): string => str.replace(ReplaceNullsRegExp, '$1')
-
-/**
- * 将所有'undefined'转换为undefined
- * @author    Yuluo  {@link https://github.com/YuluoY}
- * @date      2024-09-28
- * @param     {string}    str   字符串
- * @returns   {string}          将所有'undefined'转换为undefined后的字符串
- * @example
- * ```ts
- * const str = 'undefined';
- * console.log(str); // 'undefined'
- * replaceUndefs(str); // undefined
- */
-export const replaceUndefs = (str: string): string => str.replace(ReplaceUndefsRegExp, '$1')
-
-/**
- * 将所有'NaN'转换为NaN
- * @author    Yuluo  {@link https://github.com/YuluoY}
- * @date      2024-09-28
- * @param     {string}    str   字符串
- * @returns   {string}          将所有'NaN'转换为NaN后的字符串
- * @example
- * ```ts
- * const str = 'NaN';
- * console.log(str); // 'NaN'
- * replaceNaNs(str); // NaN
- */
-export const replaceNaNs = (str: string): string => str.replace(ReplaceNaNsRegExp, '$1')
-
-/**
- * 将所有'Infinity'转换为Infinity
- * @author    Yuluo  {@link https://github.com/YuluoY}
- * @date      2024-09-28
- * @param     {string}    str   字符串
- * @returns   {string}          将所有'Infinity'转换为Infinity后的字符串
- * @example
- * ```ts
- * const str = 'Infinity';
- * console.log(str); // 'Infinity'
- * replaceInfs(str); // Infinity
- * ```
- */
-export const replaceInfs = (str: string): string => str.replace(ReplaceInfsRegExp, '$1')
-
-/**
- * 将所有'false' or 'true' 转换为boolean
- * @author    Yuluo  {@link https://github.com/YuluoY}
- * @date      2024-09-28
- * @param     {string}    str   字符串
- * @returns   {string}          将所有'false' or 'true'  转换为boolean后的字符串
- * @example
- * ```ts
- * const str = 'false';
- * console.log(str); // 'false'
- * replaceBools(str); // false
- * ```
- */
-export const replaceBools = (str: string): string => str.replace(ReplaceBoolsRegExp, '$1')
-
-/**
- * 将function字符串转换为函数
- * @author    Yuluo  {@link https://github.com/YuluoY}
- * @date      2024-09-28
- * @param     {string}    str   函数字符串
- * @returns   {string}          函数
- * @example
- * ```ts
- * const str = 'function() { return 1; }';
- * const result = replaceFuncs(str);
- * const fn = new Function(`return ${result}`)();
- * console.log(fn()); // 1
- * ```
- */
-export const replaceFuncs = (str: string): string => str.replace(ReplaceFuncsRegExp, '$1')
-
-/**
- * 将'() => {}' 字符串转换为函数
- * @author    Yuluo  {@link https://github.com/YuluoY}
- * @date      2024-09-28
- * @param     {string}    str   函数字符串
- * @returns   {string}          函数
- * @example
- * ```ts
- * const str = '() => { return 1 }';
- * const result = replaceArrowFuncs(str);
- * const fn = new Function(`return ${result}`)();
- * console.log(fn()); // 1
- * ```
- */
-export const replaceArrowFuncs = (str: string): string => str.replace(ReplaceArrowFuncsRegExp, '$1')
-
-/**
- * 将所有的'_=>{}' 字符串转换为函数
- * @author    Yuluo  {@link https://github.com/YuluoY}
- * @date      2024-09-28
- * @param     {string}    str   函数字符串
- * @returns   {string}          函数
- * @example
- * ```ts
- * const str = '_=>{ return 1 }';
- * const result = replaceArrowFuncs2(str);
- * const fn = new Function(`return ${result}`)();
- * console.log(fn()); // 1
- * ```
- */
-export const replaceArrowFuncs2 = (str: string): string => str.replace(ReplaceArrowFuncs2RegExp, '$1')
-
-/**
  * 扁平路由表转换有层级的路由表
  * @author    Yuluo  {@link https://github.com/YuluoY}
  * @date      2024-08-29
@@ -349,10 +208,9 @@ export const groupByProp = <T = any>(array: T[], prop: string): Record<string, T
  * 解析 JSON 字符串
  * @author      Yuluo  {@link https://github.com/YuluoY}
  * @date        2024-08-24
- * @template    {T}
- * @param       {string}        str       JSON 字符串
- * @param       {T=}            defVal    默认返回值
- * @returns     {T}
+ * @param       {string}        str           JSON 字符串
+ * @param       {any}           [defVal={}]    默认返回值
+ * @returns     {any}
  * @example
  * ```js
  *  parseJSON('{"name": "hello world"}')  // {name: 'hello world'}
@@ -680,4 +538,99 @@ export function restoreValue<T = any>(str: string): T {
   if (isStringNumber(str)) return Number(str) as T
   if (isStringArray(str) || isStringObject(str) || isStringFunction(str)) return parseStrWithType<T>(str) as T
   return str as T
+}
+
+/**
+ * 将字符串 ==> 对象，并解析其中的函数和符号
+ * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @date        2024-10-15
+ * @param       {string}  str  - 字符串
+ * @returns     {object}
+ * @example
+ * ```ts
+ * const str = '{"a":10,"b":"function() {}","c":"symbol()","d":"undefined"}'
+ * const obj = parseStringify(str);
+ * console.log(obj);
+ * // {a: 10, b: function() {}, c: Symbol(), d: undefined}
+ * ```
+ */
+export function parseStringify<T = any>(str: string): T {
+  try {
+    return JSON.parse(str, (key, value) => {
+      if (startsWith(value, 'function-')) return new Function(`return ${value.slice(9)}`)()
+      if (startsWith(value, 'symbol-')) {
+        const match = value.slice(7).match(SymbolRegExp)
+        return match ? Symbol(match[1]) : value
+      }
+      if (startsWith(value, 'undef-')) return undefined
+      return restoreValue(value)
+    })
+  } catch (error) {
+    return str as T
+  }
+}
+
+/**
+ * 将对象 ==> 字符串，并解析其中的函数和符号
+ * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @date        2024-10-15
+ * @param       {object}  obj  - 对象
+ * @returns     {string}
+ * @example
+ * ```ts
+ * const obj = {a: 10, b: function() {}, c: Symbol(), d: undefined}
+ * const str = toStringify(obj);
+ * console.log(str);
+ * // '{"a":10,"b":"function() {}","c":"symbol()","d":"undefined"}'
+ * ```
+ */
+export function toStringify<T = any>(obj: T): string {
+  return JSON.stringify(obj, (key, value) => {
+    if (typeof value === 'function') return `function-${value.toString()}`
+    if (typeof value === 'symbol') return `symbol-${value.toString()}`
+    if (value === undefined) return 'undef-'
+    return value
+  })
+}
+
+/**
+ * 将小驼峰命名的字符串展开
+ * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @date        2024-10-15
+ * @param       {string}  str         - 字符串
+ * @param       {string}  [sep=' ']   - 分隔符
+ * @returns     {string}
+ * @example
+ * ```ts
+ * const str = 'helloWorld';
+ * const result = expandCamelCase(str); // 'hello world'
+ *
+ * const str2 = 'helloWorld expandCamelCase'
+ * const result2 = expandCamelCase(str2); // 'hello world expand camel case'
+ * ```
+ */
+export function expandCamelCase(str: string, sep: string = ' '): string {
+  return str
+    .replace(CamelCaseRegExp, sep + '$1')
+    .trim()
+    .toLowerCase()
+}
+
+/**
+ * 将下划线命名的字符串转换成小驼峰命名
+ * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @date        2024-10-15
+ * @param       {string}  str  - 字符串
+ * @returns     {string}
+ * @example
+ * ```ts
+ * const str = 'hello_world';
+ * const result = underlineToCamelCase(str); // 'helloWorld'
+ *
+ * const str2 = 'hello_World_underline_to_camel_case';
+ * const result2 = underlineToCamelCase(str2); // 'helloWorldUnderlineToCamelCase'
+ * ```
+ */
+export const underlineToCamelCase = (str: string): string => {
+  return str.replace(UnderlineToCamelCaseRegExp, (_, letter: string) => letter.toUpperCase())
 }

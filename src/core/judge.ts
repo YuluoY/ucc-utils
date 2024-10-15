@@ -3,6 +3,46 @@
  */
 
 /**
+ * 判断是否是 CommonJS 模块环境
+ * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @date        2024-10-15
+ * @return      {boolean}  如果是 CommonJS 模块环境则返回 true，否则返回 false
+ */
+export const isCJS = (): boolean => {
+  if (
+    typeof require === 'function' &&
+    typeof module === 'object' &&
+    module !== null &&
+    typeof module.exports === 'object'
+  ) {
+    return true
+  }
+  if (typeof global === 'object' && typeof process === 'object' && typeof __dirname === 'string') {
+    return true
+  }
+  return false
+}
+
+/**
+ * 判断是否是 ECMAScript 模块环境
+ * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @date        2024-10-15
+ * @return      {boolean}  如果是 ECMAScript 模块环境则返回 true，否则返回 false
+ */
+export const isESM = (): boolean => {
+  if (typeof require === 'function' && typeof module !== 'undefined' && module.exports) {
+    return false
+  }
+  if (typeof import.meta !== 'undefined') {
+    return true
+  }
+  if (typeof document !== 'undefined' && document.currentScript?.type === 'module') {
+    return true
+  }
+  return false
+}
+
+/**
  * 是否是基本类型
  * @author      Yuluo  {@link https://github.com/YuluoY}
  * @date        2024-08-24
@@ -571,5 +611,79 @@ export const isPromise = (obj: any): boolean => {
  * ```
  */
 export const isAsyncComponent = (obj: any): boolean => {
-  return !!obj && (typeof obj === 'object' || typeof obj === 'function') && typeof obj.__asyncLoader === 'function'
+  return (
+    !!obj && typeof obj === 'object' && obj.name === 'AsyncComponentWrapper' && typeof obj.__asyncLoader === 'function'
+  )
 }
+
+/**
+ * 是否是Vue组件
+ * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @date        2024-10-15
+ * @param       {any}         obj       - 要检查的对象
+ * @return      {boolean}
+ * @example
+ * ```ts
+ * isVueComponent({ render: () => {} }) // true
+ * isVueComponent({ setup: () => {} }) // true
+ * isVueComponent({}) // false
+ * ```
+ */
+export const isVueComponent = (obj: any): boolean => {
+  return obj && (typeof obj.render === 'function' || typeof obj.setup === 'function')
+}
+
+/**
+ * 判断是否是值
+ * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @date        2024-10-15
+ * @param       {any}         val       - 要检查的对象
+ * @return      {boolean}
+ * @example
+ * ```ts
+ * isValue(123) // true
+ * isValue('123') // true
+ * isValue(true) // true
+ * isValue(null) // false
+ * isValue(undefined) // false
+ * isValue(NaN) // false
+ * ```
+ */
+export const isValue = (val: any): boolean => {
+  return val !== null && val !== undefined && !Number.isNaN(val)
+}
+
+/**
+ * 是否是有效数组
+ * @param       {any}         arr       - 要检查的对象
+ * @return      {boolean}
+ * @example
+ * ```ts
+ * isValidArray([1, 2, 3]) // true
+ * isValidArray([]) // false
+ * isValidArray(null) // false
+ * isValidArray(undefined) // false
+ * isValidArray(NaN) // false
+ * isValidArray('123') // false
+ * ```
+ */
+export const isValidArray = (arr: any): boolean => arr && Array.isArray(arr) && arr.length > 0
+
+/**
+ * 是否是有效对象
+ * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @date        2024-10-15
+ * @param       {any}         obj       - 要检查的对象
+ * @return      {boolean}
+ * @example
+ * ```ts
+ * isValidPlainObject({ a: 1, b: 2 }) // true
+ * isValidPlainObject({}) // false
+ * isValidPlainObject(null) // false
+ * isValidPlainObject(undefined) // false
+ * isValidPlainObject(NaN) // false
+ * isValidPlainObject('123') // false
+ * ```
+ */
+export const isValidPlainObject = (obj: any): boolean =>
+  obj && typeof obj === 'object' && !Array.isArray(obj) && Object.keys(obj).length > 0
