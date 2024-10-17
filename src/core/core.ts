@@ -227,17 +227,17 @@ export const parseJSON = <T = any>(str: string, defVal: T = {} as any): T => {
 }
 
 /**
- * 英文首字母大写
+ * 英文单词首字母大写
  * @author    Yuluo  {@link https://github.com/YuluoY}
  * @date      2024-08-24
  * @param     {string}      str       英文字符串
  * @returns   {string}
  * @example
  * ```js
- *  capitalizeFirstLetter('hello world')  // Hello World
+ *  capitalizeForWord('hello world')  // Hello World
  * ```
  */
-export const capitalizeFirstLetter = (str: string): string => {
+export const capitalizeForWord = (str: string): string => {
   if (!str) return ''
   return str.replace(UpperCaseRegExp, (match) => match.toUpperCase())
 }
@@ -352,20 +352,21 @@ export function cssGradientToECharts(cssGradient: string):
 
 /**
  * 设置对象属性值（支持深度路径）
+ * @deprecated 已废弃，建议使用 _.set
  * @author      Yuluo  {@link https://github.com/YuluoY}
  * @date        2024-09-14
  * @param       {Record<string, any>}           obj             - 目标对象
  * @param       {string | string[]}             path            - 属性路径，支持点分隔的字符串或数组
  * @param       {any}                           val             - 要设置的值
  * @param       {string}                        [splitter='.']  - 分隔符，默认为 '.'
- * @returns     {[Record<string, any>, string]}                 修改后的对象和最后一个属性的 key
+ * @returns     {[Record<string, any>, string]}                 - 修改后的对象和最后一个属性的 key
  * @example
  * ```ts
  * const obj = { a: { b: { c: 1 } } }
- * setDeepValue(obj, 'a.b.c', 2) // obj = { a: { b: { c: 2 } } }
+ * setValue(obj, 'a.b.c', 2) // obj = { a: { b: { c: 2 } } }
  * ```
  */
-export function setDeepValue<T = any>(
+export function setValue<T = any>(
   obj: Record<string, any>,
   path: string | string[],
   val: any,
@@ -399,11 +400,12 @@ export function setDeepValue<T = any>(
     active[lastKey] = val
   }
 
-  return [active, lastKey] // 返回修改后的对象和最后一个 key
+  return [active, lastKey] // 返回修改后的对象和最后一个 属性key
 }
 
 /**
  * 获取对象属性值（支持深度路径）
+ * @deprecated  已废弃，建议使用 _.get
  * @author      Yuluo  {@link https://github.com/YuluoY}
  * @date        2024-09-14
  * @param       {Record<string, any>} obj             - 目标对象
@@ -413,13 +415,13 @@ export function setDeepValue<T = any>(
  * @example
  * ```ts
  * const obj = { a: { b: { c: 1 } } }
- * getDeepValue<number>(obj, 'a.b.c') // 1
+ * getValue<number>(obj, 'a.b.c') // 1
  *
  * const obj2 = { a: { b: { c: 1 } } }
- * getDeepValue(obj, 'a.b.c.d') // undefined
+ * getValue(obj, 'a.b.c.d') // undefined
  * ```
  */
-export function getDeepValue<T = any>(obj: Record<string, any>, path: string | string[], splitter: string = '.'): T {
+export function getValue<T = any>(obj: Record<string, any>, path: string | string[], splitter: string = '.'): T {
   if (typeof path === 'string') {
     path = path.split(splitter)
   }
@@ -435,13 +437,14 @@ export function getDeepValue<T = any>(obj: Record<string, any>, path: string | s
  * @param       {object}                              [options]           - 配置项
  * @param       {number}                              [options.delay]     - 执行间隔，单位毫秒，默认 100
  * @param       {number}                              [options.limit]     - 执行次数限制，默认 1
- * @param       {Record<string, any>}                 [options.ctx]       - 回调函数的 this 上下文
+ * @param       {number}                              [options.timeout]   - 超时时间，单位毫秒，默认 0，表示不限制
+ * @param       {() => void}                          [options.timeoutFn] - 超时回调函数
  * @returns     {() => void}                                              - 取消监听的函数
  * @example
  * ```ts
  * const cancel = watchFn(() => isReady(), () => {
  *   console.log('isReady')
- * }, { delay: 100, limit: 1, ctx: this })
+ * }, { delay: 100, limit: 1, timeout: 5000, timeoutFn: () => {} })
  * // 取消监听
  * cancel()
  * ```
@@ -449,15 +452,26 @@ export function getDeepValue<T = any>(obj: Record<string, any>, path: string | s
 export function watchFn(
   fn: () => Promise<boolean> | boolean,
   callback: () => Promise<void> | void,
-  options: Partial<{ delay: number; limit: number; ctx: Record<string, any> }> = {}
+  options: Partial<{
+    delay: number
+    limit: number
+    timeout: number
+    timeoutFn: () => void
+  }> = {}
 ): () => void {
-  const { delay = 100, limit = 1, ctx = null } = options
+  const { delay = 100, limit = 1, timeout = 0, timeoutFn } = options
+
   let count = 0
+  const startTime = Date.now()
   const interval = setInterval(async () => {
+    if (timeout && Date.now() - startTime > timeout) {
+      timeoutFn && typeof timeoutFn === 'function' && timeoutFn()
+      clearInterval(interval)
+      return
+    }
     if (await fn()) {
-      ctx ? await callback.call(ctx) : await callback()
-      count++
-      if (count >= limit) {
+      await callback()
+      if (++count >= limit) {
         clearInterval(interval)
       }
     } else {
@@ -607,6 +621,9 @@ export function toStringify<T = any>(obj: T): string {
  *
  * const str2 = 'helloWorld expandCamelCase'
  * const result2 = expandCamelCase(str2); // 'hello world expand camel case'
+ *
+ * const str3 = 'helloWorldExpandCamelCase';
+ * const result3 = expandCamelCase(str3, '-'); // 'hello-world-expand-camel-case'
  * ```
  */
 export function expandCamelCase(str: string, sep: string = ' '): string {
@@ -618,6 +635,7 @@ export function expandCamelCase(str: string, sep: string = ' '): string {
 
 /**
  * 将下划线命名的字符串转换成小驼峰命名
+ * @deprecated  已废弃，建议使用 _.camelCase
  * @author      Yuluo  {@link https://github.com/YuluoY}
  * @date        2024-10-15
  * @param       {string}  str  - 字符串
@@ -633,4 +651,27 @@ export function expandCamelCase(str: string, sep: string = ' '): string {
  */
 export const underlineToCamelCase = (str: string): string => {
   return str.replace(UnderlineToCamelCaseRegExp, (_, letter: string) => letter.toUpperCase())
+}
+
+/**
+ * 保留指定小数位数
+ * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @date        2024-10-17
+ * @param       {number}  num  - 数字
+ * @param       {number}  [digits=2]  - 保留的小数位数
+ * @returns     {number}
+ * @example
+ * ```ts
+ * const num = 10.123456;
+ * const result = toFixed(num); // 10.12
+ *
+ * const num2 = 10.123456;
+ * const result2 = toFixed(num2, 4); // 10.1234
+ * ```
+ */
+export const toFixed = (num: number, digits: number = 2): number => {
+  const strNum = num.toString()
+  const index = strNum.indexOf('.')
+  if (index === -1) return num
+  return Number(strNum.slice(0, index + digits + 1))
 }

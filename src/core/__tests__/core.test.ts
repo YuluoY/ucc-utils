@@ -5,8 +5,8 @@ import {
   capitalizeFirstLetter,
   getType,
   cssGradientToECharts,
-  setDeepValue,
-  getDeepValue,
+  setValue,
+  getValue,
   watchFn,
   runFn,
   parseStrWithType,
@@ -71,19 +71,19 @@ test('cssGradientToECharts', () => {
   expect(result.type).toBe('linear')
 })
 
-// setDeepValue 测试用例
-test('setDeepValue', () => {
+// setValue 测试用例
+test('setValue', () => {
   const obj = { a: { b: { c: 1 } } }
-  const [modifiedObj, key] = setDeepValue(obj, 'a.b.c', 2)
+  const [modifiedObj, key] = setValue(obj, 'a.b.c', 2)
   expect(obj.a.b.c).toBe(2)
   expect(modifiedObj).toEqual({ c: 2 })
   expect(key).toBe('c')
 })
 
-// getDeepValue 测试用例
-test('getDeepValue', () => {
+// getValue 测试用例
+test('getValue', () => {
   const obj = { a: { b: { c: 1 } } }
-  const value = getDeepValue(obj, 'a.b.c')
+  const value = getValue(obj, 'a.b.c')
   expect(value).toBe(1)
 })
 
