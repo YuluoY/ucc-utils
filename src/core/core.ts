@@ -432,14 +432,14 @@ export function getValue<T = any>(obj: Record<string, any>, path: string | strin
  * watch 监听一个函数返回为 true 的时机，并执行回调 - 有执行间隔和次数限制
  * @author      Yuluo  {@link https://github.com/YuluoY}
  * @date        2024-09-14
- * @param       {() => Promise<boolean> | boolean}    fn                  - 监听的函数
- * @param       {() => Promise<void> | void}          callback            - 回调函数
- * @param       {object}                              [options]           - 配置项
- * @param       {number}                              [options.delay]     - 执行间隔，单位毫秒，默认 100
- * @param       {number}                              [options.limit]     - 执行次数限制，默认 1
- * @param       {number}                              [options.timeout]   - 超时时间，单位毫秒，默认 0，表示不限制
- * @param       {() => void}                          [options.timeoutFn] - 超时回调函数
- * @returns     {() => void}                                              - 取消监听的函数
+ * @param       {(() => Promise<boolean>) | (() => boolean)}    fn                  - 监听的函数
+ * @param       {(() => Promise<void>) | (() => void)}          callback            - 回调函数
+ * @param       {object}                                        [options]           - 配置项
+ * @param       {number}                                        [options.delay]     - 执行间隔，单位毫秒，默认 100
+ * @param       {number}                                        [options.limit]     - 执行次数限制，默认 1
+ * @param       {number}                                        [options.timeout]   - 超时时间，单位毫秒，默认 0，表示不限制
+ * @param       {() => void}                                    [options.timeoutFn] - 超时回调函数
+ * @returns     {() => void}                                                        - 取消监听的函数
  * @example
  * ```ts
  * const cancel = watchFn(() => isReady(), () => {
@@ -450,8 +450,8 @@ export function getValue<T = any>(obj: Record<string, any>, path: string | strin
  * ```
  */
 export function watchFn(
-  fn: () => Promise<boolean> | boolean,
-  callback: () => Promise<void> | void,
+  fn: (() => boolean) | (() => Promise<boolean>),
+  callback: (() => void) | (() => Promise<void>),
   options: Partial<{
     delay: number
     limit: number
