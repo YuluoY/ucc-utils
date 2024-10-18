@@ -86,9 +86,8 @@ export const toConcurrency = async <T = any>(
   const result = [] as T[]
   if (!tasks || tasks.length === 0) return tasks as T[]
 
-  // eslint-disable-next-line no-async-promise-executor
-  return new Promise(async (res, rej) => {
-    await inner(getTaskGroup())
+  return new Promise((res, rej) => {
+    inner(getTaskGroup())
     async function inner(arr: any[]) {
       if (arr.length === 0) return
       if (isAsync) {
@@ -104,7 +103,7 @@ export const toConcurrency = async <T = any>(
         } catch (error) {
           rej(error)
         }
-        await inner(getTaskGroup())
+        inner(getTaskGroup())
       }
     }
     function getTaskGroup(): Promise<any>[] {
