@@ -2,6 +2,8 @@
  * 性能优化函数
  */
 
+import { isPromise } from './judge'
+
 /**
  * 浏览器空闲时间执行
  * @author    Yuluo
@@ -49,4 +51,59 @@ export const idleTaskQueue = (
     })
     idleMap.set(task, idleId)
   }
+}
+
+/**
+ * 并发控制
+ * @author    Yuluo
+ * @link      https://github.com/YuluoY
+ * @date      2024-10-18
+ * @param     {Function[] | Promise[]}                 tasks                  任务队列
+ * @param     {Object}                                 opts                   配置项
+ * @param     {number}                                 [opts.limit=1]         最大并发数量
+ * @param     {boolean}                                [opts.isAsync=true]    是否异步执行
+ * @param     {'all' | 'allSettled' | 'race'}          [opts.mode='all']      并发模式
+ * @returns   {Promise<void>}
+ * @example
+ * ```ts
+ * const tasks = [() => console.log('hello'), () => console.log('world')]
+ * await toConcurrency(tasks) // hello world
+ *
+ * const tasks = [Promise.resolve('hello'), Promise.resolve('world')]
+ * await toConcurrency(tasks) // hello world
+ * ```
+ */
+export const toConcurrency = async <T = any>(
+  tasks: Function[] | Promise<any>[],
+  opts: {
+    limit?: number
+    isAsync?: boolean
+    mode?: 'all' | 'race' | 'allSettled'
+  } = {}
+): Promise<T[]> => {
+  const { limit = 1, isAsync = true, mode = 'all' } = opts
+
+  const result = [] as T[]
+  if (!tasks || tasks.length === 0) return tasks as T[]
+
+  await inner(getTaskGroup())
+
+  async function inner(arr: any[]) {
+    if (arr.length === 0) return
+    if (isAsync) {
+      ;(Promise[mode] as any)(arr).then((res: any[]) => {
+        result.push(...res)
+        inner(getTaskGroup())
+      })
+    } else {
+      result.push(...(await (Promise[mode] as any)(arr)))
+      await inner(getTaskGroup())
+    }
+  }
+
+  function getTaskGroup(): Promise<any>[] {
+    return tasks.length > 0 ? tasks.slice(0, limit).map((t: any) => (isPromise(t) ? t : Promise.resolve(t()))) : []
+  }
+
+  return result
 }
