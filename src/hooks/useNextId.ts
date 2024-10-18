@@ -3,7 +3,8 @@ const _default = {
 }
 /**
  * 获取下一个ID
- * @author  Yuluo  {@link https://github.com/YuluoY}
+ * @author  Yuluo
+ * @link    https://github.com/YuluoY
  * @date    2024-10-05
  * @param   {object}  opts
  * @param   {boolean} [opts.isOrderly=true] 是否有序id

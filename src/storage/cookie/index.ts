@@ -1,6 +1,7 @@
 /**
  * 获取cookie
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-08-02
  * @method      getCookie
  * @param       {string}        name      cookie存储的key值
@@ -16,7 +17,8 @@ export const getCookie = (name: string): string => {
 /**
  * 设置cookie
  * @method      setCookie
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-08-02
  * @param       {string}                      name                cookie存储的key值
  * @param       {string}                      value               cookie的值
@@ -59,7 +61,8 @@ export const setCookie = (
 
 /**
  * 删除cookie
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-08-02
  * @method      removeCookie
  * @param       {string}        name        cookie存储的key值
@@ -77,7 +80,8 @@ export const removeCookie = (name: string, path?: string, domain?: string): void
 
 /**
  * 获取所有cookie
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-08-02
  * @method      getAllCookies
  * @returns     {Record<string, string>}  所有cookie的键值对
@@ -93,7 +97,8 @@ export const getAllCookies = (): Record<string, string> => {
 
 /**
  * 验证cookie是否有效
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-08-02
  * @method      isCookieValid
  * @param       {string}          name    cookie存储的key值

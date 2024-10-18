@@ -4,6 +4,7 @@ import { isStringArray, isStringFunction, isStringNumber, isStringObject } from 
 import {
   AddQuotesToPropsRegExp,
   CamelCaseRegExp,
+  PlaceholderRegExp,
   SymbolRegExp,
   TrimCRRegExp,
   TrimNLRegExp,
@@ -16,9 +17,10 @@ import {
 
 /**
  * window对象 - 兼容
- * @author  Yuluo  {@link https://github.com/YuluoY}
- * @date    2024-08-24
- * @constant {Window | null} root
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
+ * @date        2024-08-24
+ * @constant    {Window | null} root
  * @description 获取window对象，兼容浏览器、node、webworker等环境
  */
 export const root: Window | null =
@@ -34,10 +36,11 @@ export const root: Window | null =
 
 /**
  * 去掉字符串中的空格
- * @author    Yuluo  {@link https://github.com/YuluoY}
- * @date      2024-09-28
- * @param     {string}    str   字符串
- * @returns   {string}          去掉空格后的字符串
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
+ * @date        2024-09-28
+ * @param       {string}    str   字符串
+ * @returns     {string}          去掉空格后的字符串
  * @example
  * ```ts
  * const str = ' 123 456 789  ';
@@ -48,10 +51,11 @@ export const trimSpace = (str: string): string => str.replace(TrimSpaceRegExp, '
 
 /**
  * 去掉字符串中的换行符
- * @author    Yuluo  {@link https://github.com/YuluoY}
- * @date      2024-09-28
- * @param     {string}    str   字符串
- * @returns   {string}          去掉换行符后的字符串
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
+ * @date        2024-09-28
+ * @param       {string}    str   字符串
+ * @returns     {string}          去掉换行符后的字符串
  * @example
  * ```ts
  * const str = '123\n456\n789';
@@ -62,10 +66,11 @@ export const trimNL = (str: string): string => str.replace(TrimNLRegExp, '')
 
 /**
  * 去掉字符串中的回车符
- * @author    Yuluo  {@link https://github.com/YuluoY}
- * @date      2024-09-28
- * @param     {string}    str   字符串
- * @returns   {string}          去掉回车符后的字符串
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
+ * @date        2024-09-28
+ * @param       {string}    str   字符串
+ * @returns     {string}          去掉回车符后的字符串
  * @example
  * ```ts
  * const str = '123\r456\r789';
@@ -76,10 +81,11 @@ export const trimCR = (str: string): string => str.replace(TrimCRRegExp, '')
 
 /**
  * 去掉字符串中的制表符
- * @author    Yuluo  {@link https://github.com/YuluoY}
- * @date      2024-09-28
- * @param     {string}    str   字符串
- * @returns   {string}          去掉制表符后的字符串
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
+ * @date        2024-09-28
+ * @param       {string}    str   字符串
+ * @returns     {string}          去掉制表符后的字符串
  * @example
  * ```ts
  * const str = '123\t456\t789';
@@ -90,10 +96,11 @@ export const trimTab = (str: string): string => str.replace(TrimTabRegExp, '')
 
 /**
  * 去掉字符串中的空格、换行符、回车符、制表符
- * @author    Yuluo  {@link https://github.com/YuluoY}
- * @date      2024-09-28
- * @param     {string}    str   字符串
- * @returns   {string}          去掉空格、换行符、回车符、制表符后的字符串
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
+ * @date        2024-09-28
+ * @param       {string}    str   字符串
+ * @returns     {string}          去掉空格、换行符、回车符、制表符后的字符串
  * @example
  * ```ts
  * const str = ' 123 \n 456 \r 789 \t ';
@@ -104,10 +111,11 @@ export const trimWhitespace = (str: string): string => str.replace(TrimWhitespac
 
 /**
  * 给字符串中对象属性名加双引号
- * @author    Yuluo  {@link https://github.com/YuluoY}
- * @date      2024-09-28
- * @param     {string}    str   字符串
- * @returns   {string}          给字符串中对象属性名加双引号后的字符串
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
+ * @date        2024-09-28
+ * @param       {string}    str   字符串
+ * @returns     {string}          给字符串中对象属性名加双引号后的字符串
  * @example
  * ```ts
  * const str = 'a:1,b:2,c:3';
@@ -123,16 +131,17 @@ export const addQuotesToProps = (str: string): string => str.replace(AddQuotesTo
 
 /**
  * 扁平路由表转换有层级的路由表
- * @author    Yuluo  {@link https://github.com/YuluoY}
- * @date      2024-08-29
- * @param     {T}                             routes                        需要转换的路由表
- * @param     {ConvertRoutesToLevelOptions}   opts                          配置项
- * @param     {string}                        [opts.fld= 'id']              路由表中的id字段名，默认为id
- * @param     {string}                        [opts.glFld= 'parentId']      路由表中的父级id字段名，默认为parentId
- * @param     {string}                        [opts.childFld= 'children']   路由表中的子级字段名，默认为children
- * @param     {boolean}                       [opts.isJudgeType= true]      是否判断类型，默认为true
- * @param     {boolean}                       [opts.isChangeOwner= true]    是否改变原数组，默认为true
- * @returns   {T}                                                           返回转换后的路由表
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
+ * @date        2024-08-29
+ * @param       {T}                             routes                        需要转换的路由表
+ * @param       {ConvertRoutesToLevelOptions}   opts                          配置项
+ * @param       {string}                        [opts.fld= 'id']              路由表中的id字段名，默认为id
+ * @param       {string}                        [opts.glFld= 'parentId']      路由表中的父级id字段名，默认为parentId
+ * @param       {string}                        [opts.childFld= 'children']   路由表中的子级字段名，默认为children
+ * @param       {boolean}                       [opts.isJudgeType= true]      是否判断类型，默认为true
+ * @param       {boolean}                       [opts.isChangeOwner= true]    是否改变原数组，默认为true
+ * @returns     {T}                                                           返回转换后的路由表
  * @example
  * ```ts
  *   const routes = [
@@ -179,7 +188,8 @@ export const convertRoutesToLevel = <T = any>(routes: T[], opts: ConvertRoutesTo
 
 /**
  * 根据属性对数组分组
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-08-24
  * @template    {T}
  * @param       {T[]}                     array     需要分组的数组
@@ -206,7 +216,8 @@ export const groupByProp = <T = any>(array: T[], prop: string): Record<string, T
 
 /**
  * 解析 JSON 字符串
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-08-24
  * @param       {string}        str           JSON 字符串
  * @param       {any}           [defVal={}]    默认返回值
@@ -228,10 +239,11 @@ export const parseJSON = <T = any>(str: string, defVal: T = {} as any): T => {
 
 /**
  * 英文单词首字母大写
- * @author    Yuluo  {@link https://github.com/YuluoY}
- * @date      2024-08-24
- * @param     {string}      str       英文字符串
- * @returns   {string}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
+ * @date        2024-08-24
+ * @param       {string}      str       英文字符串
+ * @returns     {string}
  * @example
  * ```js
  *  capitalizeForWord('hello world')  // Hello World
@@ -244,7 +256,8 @@ export const capitalizeForWord = (str: string): string => {
 
 /**
  * 获取类型
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-08-24
  * @param       {any}           val       需要获取类型的值
  * @return      {string}
@@ -260,7 +273,8 @@ export const getType = (val: any): string => Object.prototype.toString.call(val)
 
 /**
  * 将 CSS 渐变（线性或径向）转换为 ECharts 的渐变配置
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-09-14
  * @param       {string} cssGradient  - CSS 渐变字符串 (linear-gradient 或 radial-gradient)
  * @returns     {Object}              - ECharts 兼容的渐变配置 (linearGradient 或 radialGradient)
@@ -353,7 +367,8 @@ export function cssGradientToECharts(cssGradient: string):
 /**
  * 设置对象属性值（支持深度路径）
  * @deprecated 已废弃，建议使用 _.set
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-09-14
  * @param       {Record<string, any>}           obj             - 目标对象
  * @param       {string | string[]}             path            - 属性路径，支持点分隔的字符串或数组
@@ -406,7 +421,8 @@ export function setValue<T = any>(
 /**
  * 获取对象属性值（支持深度路径）
  * @deprecated  已废弃，建议使用 _.get
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-09-14
  * @param       {Record<string, any>} obj             - 目标对象
  * @param       {string | string[]}   path            - 属性路径，支持点分隔的字符串或数组
@@ -430,7 +446,8 @@ export function getValue<T = any>(obj: Record<string, any>, path: string | strin
 
 /**
  * watch 监听一个函数返回为 true 的时机，并执行回调 - 有执行间隔和次数限制
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-09-14
  * @param       {(() => Promise<boolean>) | (() => boolean)}    fn                  - 监听的函数
  * @param       {(() => Promise<void>) | (() => void)}          callback            - 回调函数
@@ -484,7 +501,8 @@ export function watchFn(
 
 /**
  * 立即执行函数
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-09-24
  * @param       {() => void}  fn  - 需要执行的函数
  * @returns     {any}             - 返回值
@@ -496,7 +514,8 @@ export const runFn = <T = any>(fn: () => T, ctx: any): T => {
 
 /**
  * 将字符串对象解析为带类型的对象
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-09-28
  * @param       {string}    str     - 字符串值
  * @returns     {any}               - 带类型的值
@@ -519,7 +538,8 @@ export const parseStrWithType = <T = any>(str: string): T | string => {
 
 /**
  * 字符串值还原类型值
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-09-24
  * @param       {string}  str - 字符串
  * @returns     {any}         - 还原后的值
@@ -556,7 +576,8 @@ export function restoreValue<T = any>(str: string): T {
 
 /**
  * 将字符串 ==> 对象，并解析其中的函数和符号
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-10-15
  * @param       {string}  str  - 字符串
  * @returns     {object}
@@ -586,7 +607,8 @@ export function parseStringify<T = any>(str: string): T {
 
 /**
  * 将对象 ==> 字符串，并解析其中的函数和符号
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-10-15
  * @param       {object}  obj  - 对象
  * @returns     {string}
@@ -609,7 +631,8 @@ export function toStringify<T = any>(obj: T): string {
 
 /**
  * 将小驼峰命名的字符串展开
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-10-15
  * @param       {string}  str         - 字符串
  * @param       {string}  [sep=' ']   - 分隔符
@@ -636,7 +659,8 @@ export function expandCamelCase(str: string, sep: string = ' '): string {
 /**
  * 将下划线命名的字符串转换成小驼峰命名
  * @deprecated  已废弃，建议使用 _.camelCase
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-10-15
  * @param       {string}  str  - 字符串
  * @returns     {string}
@@ -655,7 +679,8 @@ export const underlineToCamelCase = (str: string): string => {
 
 /**
  * 保留指定小数位数
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-10-17
  * @param       {number}  num  - 数字
  * @param       {number}  [digits=2]  - 保留的小数位数
@@ -674,4 +699,39 @@ export const toFixed = (num: number, digits: number = 2): number => {
   const index = strNum.indexOf('.')
   if (index === -1) return num
   return Number(strNum.slice(0, index + digits + 1))
+}
+
+/**
+ * 占位写入模板字符串
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
+ * @date        2024-10-18
+ * @param       {string}  template  - 模板字符串
+ * @param       {Record<string, any> | any[]}  data  - 数据
+ * @returns     {string}
+ * @example
+ * ```ts
+ * const template = 'Hello, {name}!';
+ * const data = { name: 'Yuluo' };
+ * const result = fillTemplate(template, data); // 'Hello, Yuluo!'
+ *
+ * const template2 = 'Hello, {name}! You have {count} new messages.';
+ * const data2 = { name: 'Yuluo', count: 5 };
+ * const result2 = fillTemplate(template2, data2); // 'Hello, Yuluo! You have 5 new messages.'
+ *
+ * const template3 = 'Hello, {0}! You have {1} new messages.';
+ * const data3 = ['Yuluo', 5];
+ * const result3 = fillTemplate(template3, data3); // 'Hello, Yuluo! You have 5 new messages.'
+ *
+ * const template4 = 'Hello, {name}! You have {1} new messages.';
+ * const data4 = { name: 'Yuluo', count: 5 };
+ * const result4 = fillTemplate(template4, data4); // 'Hello, Yuluo! You have 5 new messages.'
+ * ```
+ */
+export const fillTemplate = (template: string, data: Record<string, any> | any[]): string => {
+  return template.replace(PlaceholderRegExp, (_, key: string) => {
+    const index = parseInt(key, 10)
+    if (!isNaN(index)) return (data as any[])[index] as string
+    return (data as Record<string, any>)[key] as string
+  })
 }

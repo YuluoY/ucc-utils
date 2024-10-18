@@ -1,6 +1,7 @@
 /**
  * 获取localStorage的值
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-08-02
  * @method      getLocalStorage
  * @param       {string}            key       localStorage的key
@@ -23,7 +24,8 @@ export const getLocalStorage = <T = any>(key: string): T | null => {
 
 /**
  * 设置localStorage的值
- * @author        Yuluo  {@link https://github.com/YuluoY}
+ * @author        Yuluo
+ * @link          https://github.com/YuluoY
  * @date          2024-08-02
  * @method        setLocalStorage
  * @param         {string}          key                 localStorage的key
@@ -50,7 +52,8 @@ export const setLocalStorage = (
 
 /**
  * 删除localStorage的值
- * @author        Yuluo  {@link https://github.com/YuluoY}
+ * @author        Yuluo
+ * @link          https://github.com/YuluoY
  * @date          2024-08-02
  * @method        removeLocalStorage
  * @param         {string}            key         localStorage的key

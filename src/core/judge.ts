@@ -4,7 +4,8 @@
 
 /**
  * 判断是否是 CommonJS 模块环境
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-10-15
  * @return      {boolean}  如果是 CommonJS 模块环境则返回 true，否则返回 false
  */
@@ -25,7 +26,8 @@ export const isCJS = (): boolean => {
 
 /**
  * 判断是否是 ECMAScript 模块环境
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-10-15
  * @return      {boolean}  如果是 ECMAScript 模块环境则返回 true，否则返回 false
  */
@@ -44,7 +46,8 @@ export const isESM = (): boolean => {
 
 /**
  * 是否是基本类型
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-08-24
  * @param       {any}           val       需要判断的值
  * @return      {boolean}
@@ -73,7 +76,8 @@ export const isPrimitive = (val: any): val is boolean => {
 
 /**
  * 是否有分量的值
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-09-14
  * @param       {any}           val       需要判断的值
  * @return      {boolean}
@@ -109,7 +113,8 @@ export const hasWeightValue = (val: any): val is boolean => {
 
 /**
  * 是否为null
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-09-14
  * @param       {any}           val       需要判断的值
  * @return      {boolean}
@@ -123,7 +128,8 @@ export const isNull = (val: any): val is boolean => val === null
 
 /**
  * 是否为undefined or null
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-09-28
  * @param       {any}           val       需要判断的值
  * @return      {boolean}
@@ -138,7 +144,8 @@ export const isNullish = (val: any): val is boolean => val === null || val === u
 
 /**
  * 是否为undefined
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-09-14
  * @param       {any}           val       需要判断的值
  * @return      {boolean}
@@ -152,7 +159,8 @@ export const isUndefined = (val: any): val is boolean => val === undefined
 
 /**
  * 是否是symbol
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-09-14
  * @param       {any}           val       需要判断的值
  * @return      {boolean}
@@ -166,7 +174,8 @@ export const isSymbol = (val: any): val is boolean => typeof val === 'symbol'
 
 /**
  * 是否是函数
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-08-24
  * @param       {any}           val       需要判断的值
  * @return      {boolean}
@@ -181,7 +190,8 @@ export const isFunction = (val: any): val is boolean => typeof val === 'function
 
 /**
  * 是否是对象
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-08-24
  * @param       {any}           val       需要判断的值
  * @return      {boolean}
@@ -196,7 +206,8 @@ export const isObject = (val: any): val is boolean => typeof val === 'object' &&
 
 /**
  * 是否是普通对象
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-09-14
  * @param       {any}           val       需要判断的值
  * @return      {boolean}
@@ -215,7 +226,8 @@ export const isPlainObject = (val: any): val is boolean => {
 
 /**
  * 是否是空对象
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-08-24
  * @param       {any}           val       需要判断的值
  * @return      {boolean}
@@ -231,7 +243,8 @@ export const isEmptyObject = (val: any): val is boolean =>
 
 /**
  * 是否是普通空对象
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-09-14
  * @param       {any}           val       需要判断的值
  * @return      {boolean}
@@ -246,7 +259,8 @@ export const isEmptyPlainObject = (val: any): val is boolean => isPlainObject(va
 
 /**
  * 是否是字符串
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-08-24
  * @param       {any}           val       需要判断的值
  * @return      {boolean}
@@ -261,7 +275,8 @@ export const isString = (val: any): val is boolean => typeof val === 'string'
 
 /**
  * 是否是数组
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-08-24
  * @param       {any}           val       需要判断的值
  * @return      {boolean}
@@ -275,7 +290,8 @@ export const isArray = (val: any): val is boolean => Array.isArray(val)
 
 /**
  * 是否是空数组
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-08-24
  * @param       {any}           val       需要判断的值
  * @return      {boolean}
@@ -289,7 +305,8 @@ export const isEmptyArray = (val: any): val is boolean => Array.isArray(val) && 
 
 /**
  * 是否是浮点小数
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-08-24
  * @param       {any}           val       需要判断的值
  * @return      {boolean}
@@ -304,7 +321,8 @@ export const isFloat = (val: any): val is boolean => typeof val === 'number' && 
 
 /**
  * 是否是数字
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-08-24
  * @param       {any}           val       需要判断的值
  * @return      {boolean}
@@ -320,7 +338,8 @@ export const isNumber = (val: any): val is boolean => typeof val === 'number'
 
 /**
  * 是否是整形数字
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-08-24
  * @param       {any}           val       需要判断的值
  * @return      {boolean}
@@ -334,7 +353,8 @@ export const isInteger = (val: any): val is boolean => typeof val === 'number' &
 
 /**
  * 判断是否是JSON string
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-09-14
  * @param       {any}       str   - 要检查的值
  * @returns     {boolean}         - 如果是JSON string返回 true，否则返回 false
@@ -360,7 +380,8 @@ export const isJSONString = (str: any): str is boolean => {
 const StringNumRegExp = /^\d+(\.\d+)?$/
 /**
  * 判断是否是字符串数字
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-09-24
  * @param       {any}       str   - 要检查的值
  * @returns     {boolean}         - 如果是字符串数字返回 true，否则返回 false
@@ -378,7 +399,8 @@ export const isStringNumber = (str: any): str is boolean => {
 
 /**
  * 判断是否是字符串布尔值
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-09-28
  * @param       {any}       str   - 要检查的值
  * @returns     {boolean}         - 如果是字符串布尔值返回 true，否则返回 false
@@ -396,10 +418,11 @@ export const isStringBoolean = (str: any): str is boolean => {
 
 /**
  * 判断是否是字符串数组
- * @author    Yuluo  {@link https://github.com/YuluoY}
- * @date      2024-09-28
- * @param     {any}         str   - 要检查的值
- * @returns   {boolean}           - 如果是字符串数组返回 true，否则返回 false
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
+ * @date        2024-09-28
+ * @param       {any}         str   - 要检查的值
+ * @returns     {boolean}           - 如果是字符串数组返回 true，否则返回 false
  * @example
  * ```ts
  *  isStringArray('[1, 2, 3]') // true
@@ -412,10 +435,11 @@ export const isStringArray = (str: any): str is boolean =>
 
 /**
  * 判断是否是字符串对象
- * @author    Yuluo  {@link https://github.com/YuluoY}
- * @date      2024-09-28
- * @param     {any}         str   - 要检查的值
- * @returns   {boolean}           - 如果是字符串对象返回 true，否则返回 false
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
+ * @date        2024-09-28
+ * @param       {any}         str   - 要检查的值
+ * @returns     {boolean}           - 如果是字符串对象返回 true，否则返回 false
  * @example
  * ```ts
  *  isStringObject('{"name": "John", "age": 30}') // true
@@ -428,7 +452,8 @@ export const isStringObject = (str: any): str is boolean =>
 
 /**
  * 判断是否是字符串函数
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-09-28
  * @param       {any}       str   - 要检查的值
  * @returns     {boolean}         - 如果是字符串函数返回 true，否则返回 false
@@ -449,7 +474,8 @@ export const isStringFunction = (str: any): str is boolean => {
 const WinRegExps = [/Win/i, /Win(?:dows)?/i] as RegExp[]
 /**
  * 判断当前系统是否是 Windows 系统
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-09-14
  * @param       {Navigator}      - 可选参数，用于指定要检查的 navigator 对象
  * @return      {boolean}
@@ -470,7 +496,8 @@ export const isWindows = (navigator?: Navigator): boolean => {
 const MacRegExps = [/Mac(?:intosh|Intel|PPC|68K)/i, /Mac/i] as RegExp[]
 /**
  * 判断当前系统是否是 macOS 系统
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-09-14
  * @param       {Navigator}      - 可选参数，用于指定要检查的 navigator 对象
  * @return      {boolean}
@@ -490,7 +517,8 @@ const MobileRegExp =
   /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Windows Phone|Windows Mobile|MeeGo|Tizen|Bada|Kindle|Silk|MiuiBrowser|SamsungBrowser|OPR\/|Fennec/i
 /**
  * 判断是否是移动端
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-09-14
  * @param       {Navigator}      - 可选参数，用于指定要检查的 navigator 对象
  * @return      {boolean}
@@ -508,7 +536,8 @@ export const isMobile = (navigator?: Navigator): boolean => {
 
 /**
  * 判断是否是PC端
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-09-14
  * @param       {Navigator}      - 可选参数，用于指定要检查的 navigator 对象
  * @return      {boolean}
@@ -522,7 +551,8 @@ export const isPC = (navigator?: Navigator): boolean => !isMobile(navigator)
 const UrlRegExp = /^(((ht|f)tps?):\/\/)?([^!@#$%^&*?.\s-]([^!@#$%^&*?.\s]{0,63}[^!@#$%^&*?.\s])?\.)+[a-z]{2,6}\/?/
 /**
  * 判断是否是URL
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-09-14
  * @param       {string}      url       - 要检查的URL
  * @return      {boolean}
@@ -539,7 +569,8 @@ const EmailRegExp =
   /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 /**
  * 判断是否是Email
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-09-14
  * @param       {string}      email     - 要检查的Email
  * @return      {boolean}
@@ -556,7 +587,8 @@ const PhoneRegExps: RegExp[] = [
 ]
 /**
  * 判断是否是移动手机号 - 有严格与宽松两种模式
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-09-14
  * @param       {string}      phone     - 要检查的手机号
  * @param       {boolean}     strict    - 是否严格模式，默认为 false
@@ -573,7 +605,8 @@ export const isPhone = (phone: string, strict: boolean = false): boolean =>
 const QQRegExp = /^[1-9][0-9]{4,10}$/
 /**
  * 判断是否是QQ号
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-09-14
  * @param       {string}      qq        - 要检查的QQ号
  * @return      {boolean}
@@ -599,7 +632,8 @@ export const isPromise = (obj: any): boolean => {
 
 /**
  * 是否是AsyncComponent的异步组件
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-09-28
  * @param       {any}         obj       - 要检查的对象
  * @return      {boolean}
@@ -618,7 +652,8 @@ export const isAsyncComponent = (obj: any): boolean => {
 
 /**
  * 是否是Vue组件
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-10-15
  * @param       {any}         obj       - 要检查的对象
  * @return      {boolean}
@@ -635,7 +670,8 @@ export const isVueComponent = (obj: any): boolean => {
 
 /**
  * 判断是否是值
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-10-15
  * @param       {any}         val       - 要检查的对象
  * @return      {boolean}
@@ -655,6 +691,8 @@ export const isValue = (val: any): boolean => {
 
 /**
  * 是否是有效数组
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @param       {any}         arr       - 要检查的对象
  * @return      {boolean}
  * @example
@@ -671,7 +709,8 @@ export const isValidArray = (arr: any): boolean => arr && Array.isArray(arr) && 
 
 /**
  * 是否是有效对象
- * @author      Yuluo  {@link https://github.com/YuluoY}
+ * @author      Yuluo
+ * @link        https://github.com/YuluoY
  * @date        2024-10-15
  * @param       {any}         obj       - 要检查的对象
  * @return      {boolean}

@@ -23,7 +23,8 @@ export interface URootFontSizeReturn {
 
 /**
  * 处理根字体大小 rem 响应式布局
- * @author  Yuluo  {@link https://github.com/YuluoY}
+ * @author  Yuluo
+ * @link    https://github.com/YuluoY
  * @date    2024-08-24
  * @param   {URootFontSizeOptions}  options                         配置项
  * @param   {number}                [options.resizeTimeout]           resize事件防抖时间, 默认300ms

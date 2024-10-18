@@ -2,8 +2,9 @@ import { HandleExceptionOptions, HandleExceptionResult } from './types/except'
 
 /**
  * 异常处理函数
- * @author Yuluo  {@link https://github.com/YuluoY}
- * @date 2024-08-29
+ * @author    Yuluo
+ * @link      https://github.com/YuluoY
+ * @date      2024-08-29
  * @template  {T}
  * @param     {Function}          fn                      函数
  * @param     {Object}            opts
