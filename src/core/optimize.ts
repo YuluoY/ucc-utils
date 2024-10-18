@@ -86,24 +86,33 @@ export const toConcurrency = async <T = any>(
   const result = [] as T[]
   if (!tasks || tasks.length === 0) return tasks as T[]
 
-  await inner(getTaskGroup())
-
-  async function inner(arr: any[]) {
-    if (arr.length === 0) return
-    if (isAsync) {
-      ;(Promise[mode] as any)(arr).then((res: any[]) => {
-        result.push(...res)
-        inner(getTaskGroup())
-      })
-    } else {
-      result.push(...(await (Promise[mode] as any)(arr)))
-      await inner(getTaskGroup())
+  // eslint-disable-next-line no-async-promise-executor
+  return new Promise(async (res, rej) => {
+    await inner(getTaskGroup())
+    async function inner(arr: any[]) {
+      if (arr.length === 0) return
+      if (isAsync) {
+        ;(Promise[mode] as any)(arr)
+          .then((res: any[]) => {
+            result.push(...res)
+            inner(getTaskGroup())
+          })
+          .catch(rej)
+      } else {
+        try {
+          result.push(...(await (Promise[mode] as any)(arr)))
+        } catch (error) {
+          rej(error)
+        }
+        await inner(getTaskGroup())
+      }
     }
-  }
-
-  function getTaskGroup(): Promise<any>[] {
-    return tasks.length > 0 ? tasks.slice(0, limit).map((t: any) => (isPromise(t) ? t : Promise.resolve(t()))) : []
-  }
-
-  return result
+    function getTaskGroup(): Promise<any>[] {
+      if (tasks.length > 0) return tasks.slice(0, limit).map((t: any) => (isPromise(t) ? t : Promise.resolve(t())))
+      else {
+        res(result)
+        return []
+      }
+    }
+  })
 }
