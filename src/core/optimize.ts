@@ -54,15 +54,13 @@ export const idleTaskQueue = (
 }
 
 /**
- * 并发控制
+ * 并发队列控制 - 保证并发数量始终是limit个
  * @author    Yuluo
  * @link      https://github.com/YuluoY
  * @date      2024-10-18
- * @param     {Function[] | Promise[]}                 tasks                  任务队列
- * @param     {Object}                                 opts                   配置项
- * @param     {number}                                 [opts.limit=1]         最大并发数量
- * @param     {boolean}                                [opts.isAsync=true]    是否异步执行
- * @param     {'all' | 'allSettled' | 'race'}          [opts.mode='all']      并发模式
+ * @param     {Function[] | Promise[]}                 tasks                      任务队列
+ * @param     {object}                                 opts                       配置项
+ * @param     {number}                                 [opts.limit=3]             最大并发数量，默认为3
  * @returns   {Promise<void>}
  * @example
  * ```ts
@@ -73,45 +71,35 @@ export const idleTaskQueue = (
  * await toConcurrency(tasks) // hello world
  * ```
  */
-export const toConcurrency = async <T = any>(
+export const concurRequest = async <T = any>(
   tasks: Function[] | Promise<any>[],
   opts: {
     limit?: number
-    isAsync?: boolean
-    mode?: 'all' | 'race' | 'allSettled'
   } = {}
-): Promise<T[]> => {
-  const { limit = 1, isAsync = true, mode = 'all' } = opts
+): Promise<{ success: boolean; value: T | any }[]> => {
+  const { limit = 3 } = opts
+  tasks = tasks.map((t: any) => (isPromise(t) ? t : Promise.resolve(t)))
 
-  const result = [] as T[]
-  if (!tasks || tasks.length === 0) return tasks as T[]
-
-  return new Promise((res, rej) => {
-    inner(getTaskGroup())
-    async function inner(arr: any[]) {
-      if (arr.length === 0) return
-      if (isAsync) {
-        ;(Promise[mode] as any)(arr)
-          .then((res: any[]) => {
-            result.push(...res)
-            inner(getTaskGroup())
-          })
-          .catch(rej)
-      } else {
-        try {
-          result.push(...(await (Promise[mode] as any)(arr)))
-        } catch (error) {
-          rej(error)
-        }
-        inner(getTaskGroup())
+  // eslint-disable-next-line no-async-promise-executor
+  return new Promise(async (resolve, reject) => {
+    if (tasks.length === 0) return resolve([])
+    const results = [] as { success: boolean; value: T | any }[]
+    let nextIndex = 0
+    let count = 0
+    const _request = async () => {
+      const i = nextIndex++
+      const task = tasks[i] as Promise<T>
+      try {
+        results[i] = { success: true, value: await task }
+      } catch (error) {
+        results[i] = { success: false, value: error }
       }
     }
-    function getTaskGroup(): Promise<any>[] {
-      if (tasks.length > 0) return tasks.slice(0, limit).map((t: any) => (isPromise(t) ? t : Promise.resolve(t())))
-      else {
-        res(result)
-        return []
-      }
+    if (nextIndex < tasks.length) _request()
+    if (++count === tasks.length) return resolve(results)
+
+    for (let i = 0; i < Math.min(limit, tasks.length); i++) {
+      _request()
     }
   })
 }
