@@ -665,7 +665,15 @@ export const isAsyncComponent = (obj: any): boolean => {
  * ```
  */
 export const isVueComponent = (obj: any): boolean => {
-  return obj && (typeof obj.render === 'function' || typeof obj.setup === 'function')
+  return (
+    typeof obj === 'object' &&
+    obj !== null &&
+    (typeof obj.setup === 'function' ||
+      typeof obj.render === 'function' ||
+      typeof obj.template === 'string' ||
+      typeof obj.name === 'string' ||
+      obj.functional === true) // 支持函数式组件
+  )
 }
 
 /**
