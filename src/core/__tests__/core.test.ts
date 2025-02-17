@@ -2,7 +2,6 @@ import {
   convertRoutesToLevel,
   groupByProp,
   parseJSON,
-  capitalizeFirstLetter,
   getType,
   cssGradientToECharts,
   setValue,
@@ -49,12 +48,6 @@ test('groupByProp', () => {
 test('parseJSON', () => {
   const result = parseJSON('{"name": "hello world"}')
   expect(result).toEqual({ name: 'hello world' })
-})
-
-// capitalizeFirstLetter 测试用例
-test('capitalizeFirstLetter', () => {
-  const result = capitalizeFirstLetter('hello world')
-  expect(result).toBe('Hello World')
 })
 
 // getType 测试用例

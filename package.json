@@ -1,129 +1,93 @@
 {
   "name": "ucc-utils",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "description": "Ucc工具库",
   "author": "Yuluo",
   "license": "MIT",
-  "main": "dist/index.js",
-  "module": "dist/index.mjs",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "files": [
-    "dist",
-    "core",
-    "dom",
-    "hooks",
-    "request",
-    "socket",
-    "sql",
-    "storage",
-    "worker",
-    "types",
-    "polyfill"
+    "dist"
   ],
+  "peerDependencies": {
+    "axios": "^1.6.8",
+    "lodash": "^4.17.21"
+  },
+  "peerDependenciesMeta": {
+    "vue": {
+      "optional": true
+    },
+    "redis": {
+      "optional": true
+    },
+    "cesium": {
+      "optional": true
+    }
+  },
   "exports": {
     ".": {
-      "import": {
-        "types": "./dist/index.d.mts",
-        "default": "./dist/index.mjs"
-      },
-      "require": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
-      }
-    },
-    "./polyfill": {
-      "import": {
-        "types": "./dist/index.d.mts",
-        "default": "./dist/index.mjs"
-      },
-      "require": {
-        "types": "./dist/index.d.ts",
-        "default": "./dist/index.js"
-      }
+      "types": "./dist/index.d.ts",
+      "node": "./dist/index.js",
+      "browser": "./dist/index.mjs",
+      "default": "./dist/index.mjs"
     },
     "./core": {
-      "import": {
-        "types": "./dist/core/index.d.mts",
-        "default": "./dist/core/index.mjs"
-      },
-      "require": {
-        "types": "./dist/core/index.d.ts",
-        "default": "./dist/core/index.js"
-      }
+      "types": "./dist/core/index.d.ts",
+      "node": "./dist/core/index.js",
+      "browser": "./dist/core/index.mjs",
+      "default": "./dist/core/index.mjs"
     },
     "./dom": {
-      "import": {
-        "types": "./dist/dom/index.d.mts",
-        "default": "./dist/dom/index.mjs"
-      },
-      "require": {
-        "types": "./dist/dom/index.d.ts",
-        "default": "./dist/dom/index.js"
-      }
+      "types": "./dist/dom/index.d.ts",
+      "browser": "./dist/dom/index.mjs",
+      "default": "./dist/dom/index.mjs"
     },
     "./hooks": {
-      "import": {
-        "types": "./dist/hooks/index.d.mts",
-        "default": "./dist/hooks/index.mjs"
-      },
-      "require": {
-        "types": "./dist/hooks/index.d.ts",
-        "default": "./dist/hooks/index.js"
-      }
+      "types": "./dist/hooks/index.d.ts",
+      "browser": "./dist/hooks/index.mjs",
+      "default": "./dist/hooks/index.mjs"
     },
     "./request": {
-      "import": {
-        "types": "./dist/request/index.d.mts",
-        "default": "./dist/request/index.mjs"
-      },
-      "require": {
-        "types": "./dist/request/index.d.ts",
-        "default": "./dist/request/index.js"
-      }
+      "types": "./dist/request/index.d.ts",
+      "browser": "./dist/request/index.mjs",
+      "default": "./dist/request/index.mjs"
     },
     "./socket": {
-      "import": {
-        "types": "./dist/socket/index.d.mts",
-        "default": "./dist/socket/index.mjs"
-      },
-      "require": {
-        "types": "./dist/socket/index.d.ts",
-        "default": "./dist/socket/index.js"
-      }
+      "types": "./dist/socket/index.d.ts",
+      "node": "./dist/socket/index.js",
+      "browser": "./dist/socket/index.mjs",
+      "default": "./dist/socket/index.mjs"
     },
     "./sql": {
-      "import": {
-        "types": "./dist/sql/index.d.mts",
-        "default": "./dist/sql/index.mjs"
-      },
-      "require": {
-        "types": "./dist/sql/index.d.ts",
-        "default": "./dist/sql/index.js"
-      }
+      "types": "./dist/sql/index.d.ts",
+      "node": "./dist/sql/index.js",
+      "browser": "./dist/sql/index.mjs",
+      "default": "./dist/sql/index.mjs"
     },
     "./storage": {
-      "import": {
-        "types": "./dist/storage/index.d.mts",
-        "default": "./dist/storage/index.mjs"
-      },
-      "require": {
-        "types": "./dist/storage/index.d.ts",
-        "default": "./dist/storage/index.js"
-      }
+      "types": "./dist/storage/index.d.ts",
+      "browser": "./dist/storage/index.mjs",
+      "default": "./dist/storage/index.mjs"
+    },
+    "./redis": {
+      "types": "./dist/redis/index.d.ts",
+      "node": "./dist/redis/index.js"
     },
     "./worker": {
-      "import": {
-        "types": "./dist/worker/index.d.mts",
-        "default": "./dist/worker/index.mjs"
-      },
-      "require": {
-        "types": "./dist/worker/index.d.ts",
-        "default": "./dist/worker/index.js"
-      }
+      "types": "./dist/worker/index.d.ts",
+      "browser": "./dist/worker/index.mjs",
+      "default": "./dist/worker/index.mjs"
     },
-    "./types": {
-      "import": "./dist/types/index.ts",
-      "require": "./dist/types/index.ts"
+    "./vue": {
+      "types": "./dist/vue/index.d.ts",
+      "browser": "./dist/vue/index.mjs",
+      "default": "./dist/vue/index.mjs"
+    },
+    "./cesium": {
+      "types": "./dist/cesium/index.d.ts",
+      "browser": "./dist/cesium/index.mjs",
+      "default": "./dist/cesium/index.mjs"
     }
   },
   "repository": {
@@ -157,7 +121,8 @@
     "prepare": "husky",
     "doc": "npx typedoc --entryPointStrategy expand --out docs src",
     "test": "jest",
-    "test:w": "jest --watch"
+    "test:w": "jest --watch",
+    "typecheck": "tsc --noEmit"
   },
   "lint-staged": {
     "*.{js,jsx,vue,ts,tsx}": [
@@ -170,12 +135,14 @@
     "@commitlint/config-conventional": "^19.2.2",
     "@eslint/js": "^9.8.0",
     "@faker-js/faker": "^8.4.1",
+    "@swc/core": "^1.10.16",
     "@types/jest": "^29.5.13",
     "@types/lodash": "^4.17.7",
     "@types/mocha": "^10.0.6",
+    "@types/node": "^22.13.4",
     "@types/redis": "^4.0.11",
     "@vue/compiler-sfc": "^3.5.3",
-    "axios": "^1.6.8",
+    "@vue/runtime-core": "^3.4.35",
     "esbuild": "^0.23.1",
     "eslint": "^9.8.0",
     "eslint-config-prettier": "^9.1.0",
@@ -183,10 +150,10 @@
     "husky": "^9.1.4",
     "jest": "^29.7.0",
     "lint-staged": "^15.2.7",
-    "lodash": "^4.17.21",
     "mocha": "^10.4.0",
     "prettier": "^3.3.3",
     "redis": "^4.7.0",
+    "rimraf": "^5.0.0",
     "sass": "^1.78.0",
     "ts-jest": "^29.1.2",
     "tsup": "^8.2.4",
@@ -197,5 +164,9 @@
     "typescript": "^5.5.4",
     "typescript-eslint": "^8.0.0",
     "vue": "^3.4.35"
+  },
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public"
   }
 }

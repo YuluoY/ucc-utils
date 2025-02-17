@@ -375,6 +375,7 @@ export function cssGradientToECharts(cssGradient: string):
  * @param       {any}                           val             - 要设置的值
  * @param       {string}                        [splitter='.']  - 分隔符，默认为 '.'
  * @returns     {[Record<string, any>, string]}                 - 修改后的对象和最后一个属性的 key
+ * @memberof    core.setValue
  * @example
  * ```ts
  * const obj = { a: { b: { c: 1 } } }
@@ -427,7 +428,8 @@ export function setValue<T = any>(
  * @param       {Record<string, any>} obj             - 目标对象
  * @param       {string | string[]}   path            - 属性路径，支持点分隔的字符串或数组
  * @param       {string}              [splitter='.']  - 分隔符，默认为 '.'
- * @returns     {any}                                 - 属性值
+ * @returns     {any}
+ * @memberof    core.getValue
  * @example
  * ```ts
  * const obj = { a: { b: { c: 1 } } }
@@ -506,6 +508,10 @@ export function watchFn(
  * @date        2024-09-24
  * @param       {() => void}  fn  - 需要执行的函数
  * @returns     {any}             - 返回值
+ * @example
+ * ```ts
+ * const result = runFn(() => 'hello', null) // hello
+ * ```
  */
 export const runFn = <T = any>(fn: () => T, ctx: any): T => {
   if (ctx) return fn.call(ctx)
@@ -664,6 +670,7 @@ export function expandCamelCase(str: string, sep: string = ' '): string {
  * @date        2024-10-15
  * @param       {string}  str  - 字符串
  * @returns     {string}
+ * @memberof    core.underlineToCamelCase
  * @example
  * ```ts
  * const str = 'hello_world';

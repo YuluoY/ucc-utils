@@ -1,80 +1,95 @@
-import type { Options } from 'tsup'
-import vue from '@vue/compiler-sfc' // 可以使用 Vite 的 Vue 插件
-import { Plugin } from 'esbuild'
-import sass from 'sass'
-import fs from 'node:fs'
-import path from 'node:path'
+import { defineConfig } from 'tsup'
+import { rimraf } from 'rimraf'
+import type { Format } from 'tsup'
 
-export const tsup: Options = {
-  entry: {
-    index: './index.ts',
-    polyfill: './Polyfill.ts',
-    'core/index': 'src/core/index.ts',
-    'dom/index': 'src/dom/index.ts',
-    'hooks/index': 'src/hooks/index.ts',
-    'request/index': 'src/request/index.ts',
-    'socket/index': 'src/socket/index.ts',
-    'sql/index': 'src/sql/index.ts',
-    'storage/index': 'src/storage/index.ts',
-    'worker/index': 'src/worker/index.ts'
-  },
-  format: ['cjs', 'esm'],
+// 清理 dist 目录
+rimraf.sync('dist')
+
+// 基础配置
+const baseConfig = {
   dts: true,
-  splitting: true,
   clean: true,
   minify: true,
-  outDir: 'dist',
-  legacyOutput: true,
-  target: 'esnext',
-  external: ['ucc-utils', 'vue'],
-  esbuildOptions(opts) {
-    opts.platform = 'node'
-    opts.alias = {
-      'ucc-utils/core': 'ucc-utils/dist/core',
-      'ucc-utils/dom': 'ucc-utils/dist/dom',
-      'ucc-utils/hooks': 'ucc-utils/dist/hooks',
-      'ucc-utils/request': 'ucc-utils/dist/request',
-      'ucc-utils/socket': 'ucc-utils/dist/socket',
-      'ucc-utils/sql': 'ucc-utils/dist/sql',
-      'ucc-utils/storage': 'ucc-utils/dist/storage',
-      'ucc-utils/worker': 'ucc-utils/dist/worker'
-    }
-    opts.plugins = [
-      {
-        name: 'vue-sfc',
-        setup(build) {
-          // 处理 Vue 文件的插件
-          build.onLoad({ filter: /\.vue$/ }, async (args) => {
-            const source = fs.readFileSync(args.path, 'utf8')
-            const { descriptor } = vue.parse(source)
-
-            // 编译 `<script setup>`
-            const script = vue.compileScript(descriptor, { id: args.path })
-
-            return {
-              contents: script.content,
-              loader: 'ts'
-            }
-          })
-        }
-      } as Plugin,
-      {
-        name: 'scss',
-        setup(build) {
-          build.onLoad({ filter: /\.scss$/ }, async (args) => {
-            const result = sass.renderSync({ file: args.path })
-            return {
-              contents: result.css.toString(),
-              loader: 'css'
-            }
-          })
-        }
-      } as Plugin
-    ]
-  },
-  async onSuccess() {
-    // 将 src/types 拷贝到 dist 目录下
-    fs.cpSync('src/types', 'dist/types', { recursive: true })
-    // fs.copyFileSync(path.resolve(__dirname, './package.json'), path.resolve(__dirname, './dist/package.json'))
-  }
+  splitting: true,
+  sourcemap: false,
+  treeshake: true
 }
+
+export default defineConfig([
+  // 1. 浏览器环境入口
+  {
+    ...baseConfig,
+    entry: {
+      index: 'src/index.browser.ts'
+    },
+    format: ['esm'] as Format[],
+    outDir: 'dist',
+    platform: 'browser',
+    external: ['axios', 'lodash', 'vue', 'cesium'],
+    outExtension: () => ({ js: '.mjs' })
+  },
+
+  // 2. Node.js 环境入口
+  {
+    ...baseConfig,
+    entry: {
+      index: 'src/index.node.ts'
+    },
+    format: ['cjs'] as Format[],
+    outDir: 'dist',
+    platform: 'node',
+    external: ['axios', 'lodash', 'redis'],
+    outExtension: () => ({ js: '.js' })
+  },
+
+  // 3. 浏览器专用模块
+  {
+    ...baseConfig,
+    entry: {
+      'dom/index': 'src/dom/index.ts',
+      'hooks/index': 'src/hooks/index.ts',
+      'request/index': 'src/request/index.ts',
+      'storage/index': 'src/storage/index.ts',
+      'worker/index': 'src/worker/index.ts',
+      'vue/index': 'src/vue/index.ts',
+      'cesium/index': 'src/cesium/index.ts'
+    },
+    format: ['esm'] as Format[],
+    outDir: 'dist',
+    platform: 'browser',
+    external: ['axios', 'lodash', 'vue', 'cesium'],
+    outExtension: () => ({ js: '.mjs' })
+  },
+
+  // 4. 服务端专用模块
+  {
+    ...baseConfig,
+    entry: {
+      'redis/index': 'src/redis/index.ts'
+    },
+    format: ['cjs'] as Format[],
+    outDir: 'dist',
+    platform: 'node',
+    external: ['axios', 'lodash', 'redis'],
+    outExtension: () => ({ js: '.js' })
+  },
+
+  // 5. 通用模块（core + 跨平台模块）
+  {
+    ...baseConfig,
+    entry: {
+      'core/index': 'src/core/index.ts',
+      'sql/index': 'src/sql/index.ts',
+      'socket/index': 'src/socket/index.ts'
+    },
+    format: ['cjs', 'esm'] as Format[],
+    outDir: 'dist',
+    platform: 'neutral',
+    external: ['axios', 'lodash'],
+    outExtension({ format }) {
+      return {
+        js: format === 'cjs' ? '.js' : '.mjs'
+      }
+    }
+  }
+])
