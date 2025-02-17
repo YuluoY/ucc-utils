@@ -5,6 +5,7 @@ import { debounce, isFunction, throttle } from 'lodash'
 interface EventOptions extends AddEventListenerOptions {
   debounce?: number // 防抖延迟时间（毫秒）
   throttle?: number // 节流延迟时间（毫秒）
+  immediate?: boolean // 是否立即执行
 }
 
 // 定义目标类型：可以是DOM元素或返回DOM元素的函数
@@ -76,6 +77,9 @@ export default function useEventListener(
       // 如果target是函数则执行它获取DOM元素，否则直接使用
       element = isRef(target) ? target.value : isFunction(target) ? target() : target
       element.addEventListener(event, callback, options)
+      if (options.immediate) {
+        callback(new Event(event))
+      }
     }
   })
 
