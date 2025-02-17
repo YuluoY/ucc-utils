@@ -47,7 +47,7 @@ type CleanupFn = () => void
  */
 export default function useEventListener(
   target: TargetType,
-  event: string,
+  event: keyof WindowEventMap,
   callback: EventListener,
   options: EventOptions = {}
 ): CleanupFn {
