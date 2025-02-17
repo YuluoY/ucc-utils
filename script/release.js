@@ -570,8 +570,8 @@ const updateVersion = async () => {
         if (status) {
           console.log('检测到以下文件变更:');
           console.log(status.split('\n').map(line => `  ${line}`).join('\n'));
+          execCommand('git add -A', 'git add 失败');
         }
-        execCommand('git add -A', 'git add 失败');
       } else {
         // 否则只提交指定的文件
         console.log('将提交以下文件:', config.filesToAdd.join(', '));
@@ -596,7 +596,14 @@ const updateVersion = async () => {
         
         // 再次提交所有更改
         execCommand('git add -A', '第二次 git add 失败');
-        execCommand(`git commit -m "chore: additional changes for ${formattedVersion}"`, '第二次 git commit 失败');
+        
+        // 检查 git status 确认是否真的有需要提交的内容
+        const finalStatus = execSync('git status --porcelain', { stdio: 'pipe' }).toString().trim();
+        if (finalStatus) {
+          execCommand(`git commit -m "chore: additional changes for ${formattedVersion}"`, '第二次 git commit 失败');
+        } else {
+          console.log('没有需要提交的更改，跳过第二次提交');
+        }
       }
     } catch (error) {
       throw { step: 'commit', error };
