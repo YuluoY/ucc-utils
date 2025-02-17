@@ -1,6 +1,6 @@
 {
   "name": "ucc-utils",
-  "version": "0.3.0",
+  "version": "0.3.3",
   "description": "Ucc工具库",
   "author": "Yuluo",
   "license": "MIT",
@@ -122,7 +122,8 @@
     "doc": "npx typedoc --entryPointStrategy expand --out docs src",
     "test": "jest",
     "test:w": "jest --watch",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "release": "node script/release.js"
   },
   "lint-staged": {
     "*.{js,jsx,vue,ts,tsx}": [
