@@ -7,7 +7,23 @@ rimraf.sync('dist')
 
 // 基础配置
 const baseConfig = {
-  dts: true,
+  dts: {
+    entry: {
+      index: 'src/index.browser.ts',
+      'index.node': 'src/index.node.ts',
+      'dom/index': 'src/dom/index.ts',
+      'hooks/index': 'src/hooks/index.ts',
+      'request/index': 'src/request/index.ts',
+      'storage/index': 'src/storage/index.ts',
+      'worker/index': 'src/worker/index.ts',
+      'vue/index': 'src/vue/index.ts',
+      'cesium/index': 'src/cesium/index.ts',
+      'redis/index': 'src/redis/index.ts',
+      'core/index': 'src/core/index.ts',
+      'sql/index': 'src/sql/index.ts',
+      'socket/index': 'src/socket/index.ts'
+    }
+  },
   clean: true,
   minify: true,
   splitting: true,
