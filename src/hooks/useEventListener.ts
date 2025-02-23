@@ -1,5 +1,5 @@
 import { isRef, onMounted, onUnmounted, Ref } from 'vue'
-import { debounce, isFunction, throttle } from 'lodash'
+import { debounce, isFunction, throttle } from 'lodash-es'
 
 // 扩展原生事件监听选项，添加防抖和节流配置
 interface EventOptions extends AddEventListenerOptions {

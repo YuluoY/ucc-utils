@@ -1,4 +1,4 @@
-import { cloneDeep, startsWith } from 'lodash'
+import { cloneDeep, startsWith } from 'lodash-es'
 import { ConvertRoutesToLevelOptions } from './types/core'
 import { isStringArray, isStringFunction, isStringNumber, isStringObject } from './judge'
 import {

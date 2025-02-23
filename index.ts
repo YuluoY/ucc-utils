@@ -11,7 +11,7 @@ export * from './src/cesium' // cesium工具
 /**
  * lodash工具
  */
-import lodash from 'lodash'
+import * as lodash from 'lodash-es'
 export const _ = lodash
 
 import * as core from './src/core'

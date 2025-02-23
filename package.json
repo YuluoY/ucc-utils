@@ -1,6 +1,6 @@
 {
   "name": "ucc-utils",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "description": "Ucc工具库",
   "author": "Yuluo",
   "license": "MIT",
@@ -12,7 +12,7 @@
   ],
   "peerDependencies": {
     "axios": "^1.6.8",
-    "lodash": "^4.17.21"
+    "lodash-es": "^4.17.21"
   },
   "peerDependenciesMeta": {
     "vue": {
@@ -138,7 +138,7 @@
     "@faker-js/faker": "^8.4.1",
     "@swc/core": "^1.10.16",
     "@types/jest": "^29.5.13",
-    "@types/lodash": "^4.17.7",
+    "@types/lodash-es": "^4.17.12",
     "@types/mocha": "^10.0.6",
     "@types/node": "^22.13.4",
     "@types/redis": "^4.0.11",
@@ -156,6 +156,7 @@
     "redis": "^4.7.0",
     "rimraf": "^5.0.0",
     "sass": "^1.78.0",
+    "semver": "^7.7.1",
     "ts-jest": "^29.1.2",
     "tsup": "^8.2.4",
     "typedoc": "^0.26.7",
